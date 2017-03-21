@@ -31,3 +31,7 @@ class Vertex(object):
         if type(other) is type(self):
             return (self.x == other.x & self.y == other.y & self.z == other.z)
         return False
+
+    def __hash__(self):
+        """Hash code for vertex."""
+        return hash(self.x, self.y, self.z)
