@@ -1,5 +1,5 @@
-from quadrilateral import Quadrilateral
-from vertex import Vertex
+from shapes.quadrilateral import Quadrilateral
+from shapes.vertex import Vertex
 
 
 class Quadrat(Quadrilateral):

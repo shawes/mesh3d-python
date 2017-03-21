@@ -72,7 +72,7 @@ class Mesh(object):
 
     def _get_next_number(iterator, is_int):
         number_builder = list()
-        while number_builder.len() == 0 or number_builder[-1] != " ":
+        while number_builder.len() > 0 or number_builder[-1] != " ":
             try:
                 number_builder.append(iterator.next())
             except StopIteration:
