@@ -1,5 +1,6 @@
 from nose.tools import *
 from src.shapes.mesh import Mesh
+from src.shapes.vertex import Vertex
 
 
 def test_contructor():
