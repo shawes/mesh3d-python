@@ -12,7 +12,7 @@ class CsvWriter(object):
         # Write headers if new file
         if files_exists is True:
             csv_file.writeline("mesh_name, quadrat_size_m, quadrat_coord_x, quadrat_coord_y," +
-                           "quadrat_centroid_x, quadrat_centroid_y, faces, 3d_area, 2d_area, rugosity")
+                                "quadrat_centroid_x, quadrat_centroid_y, faces, 3d_area, 2d_area, rugosity")
 
         areas_3D_merged = list(itertools.chain.from_iterable(
             list(itertools.chain.from_iterable(areas_3D))))
@@ -31,7 +31,7 @@ class CsvWriter(object):
                     if area3d > 0 and area2d > 0:
                         csv_file.writeline(name + "," + sizes[size_index] + "," + quadrat.id[0] + "," +
                                            quadrat.id[1] + "," + quadrat.midpoint.x + "," + quadrat.midpoint.y + "," +
-                                           faces + "," + area3d + "," + area2d + "," + rugosity))
+                                           faces + "," + area3d + "," + area2d + "," + rugosity)
 
                     area_index += 1
                 size_index += 1

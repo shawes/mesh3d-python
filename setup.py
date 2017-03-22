@@ -1,19 +1,24 @@
 try:
-    from setuptools import setup
+    from setuptools import setup, find_packages
 except ImportError:
     from distutils.core import setup
 
-config = {
-    'description': 'My Project',
-    'author': 'My Name',
-    'url': 'URL to get it at.',
-    'download_url': 'Where to download it.',
-    'author_email': 'My email.',
-    'version': '0.1',
-    'install_requires': ['nose'],
-    'packages': ['NAME'],
-    'scripts': [],
-    'name': 'projectname'
-}
+with open('README.md') as f:
+    readme = f.read()
 
-setup(**config)
+with open('LICENSE.md') as f:
+    license = f.read()
+
+setup(
+    description='Package to measure rugosity of 3D meshes',
+    long_description=readme,
+    author='Steve Hawes',
+    url="https://github.com/shawes/mesh3d-python",
+    author_email="maxhawes@gmail.com",
+    install_requires=['nose'],
+    scripts=[],
+    name='Mesh3D',
+    version="0.1",
+    license=license,
+    packages=find_packages(exclude=('tests', 'docs'))
+)
