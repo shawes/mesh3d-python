@@ -8,13 +8,14 @@ class Quadrat(Quadrilateral):
     relative_z_std = 0.0
 
     def __init__(self, id, size, midpoint):
+        self.id = id
+        self.size = size
+        self.midpoint = midpoint
         Quadrilateral.__init__(self,
             Vertex(midpoint.x - size / 2, midpoint.y - size / 2, midpoint.z),
             Vertex(midpoint.x - size / 2, midpoint.y + size / 2, midpoint.z),
             Vertex(midpoint.x + size / 2, midpoint.y - size / 2, midpoint.z),
             Vertex(midpoint.x + size / 2, midpoint.y + size / 2, midpoint.z))
-        self.id = id
-        self.midpoint = midpoint
 
     def contains(self, vertex):
         x_test = vertex.x > self.vertex_1.x and vertex.x < self.vertex_4.x
@@ -22,9 +23,7 @@ class Quadrat(Quadrilateral):
         return x_test and y_test
 
     def __eq__(self, other):
-        return isinstance(other, Quadrat) and
-        self.midpoint == other.midpoint and
-        self.id == other.id
+        return self.midpoint == other.midpoint and self.id == other.id
 
     def __hash__(self):
-        return hash((tuple(self.id), tuple(self.midpoint)))
+        return hash(self.id) * hash(self.size) * hash(self.midpoint)

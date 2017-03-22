@@ -1,4 +1,4 @@
-from vertex import Vertex
+from shapes.vertex import Vertex
 
 class DimensionOrder(object):
     X = 0

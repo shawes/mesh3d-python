@@ -1,4 +1,10 @@
 import argparse
+from io.obj_reader import ObjReader
+from dimension_order import DimensionOrder
+from bounding_box import BoundingBox
+from quadrat_builder import QuadratBuilder
+from shapes.mesh import Mesh
+from io.csv_writer import CsvWriter
 
 
 class Mesh3d(object):
@@ -7,68 +13,69 @@ class Mesh3d(object):
                             description='Measures rugosity of 3D meshes.',
                             prog='Mesh3D',
                             usage='%(prog)s [options]')
-    parser.add_argument('--dim', help='the dimensions of the input files WLH (width-length-height)',default='XYZ')
-    parser.add_argument('--size', help='the size of a quadrat (standard is metres, but depends on the mesh units)', type=float)
-    parser.add_argument('--verbose', help='prints verbose output', action='store_true')
-    parser.add_argument('--out', help='output file to which to write (it has to be a .csv file)',type=file)
-    parser.add_argument('--meshes', help='input mesh files (.obj)', nargs='*', type=file)
+    parser.add_argument('--dim',
+                        help='the dimensions of the input files WLH (width-length-height)',
+                        default='XYZ')
+    parser.add_argument('--size',
+                        help='the size of a quadrat (standard is metres, but depends on the mesh units)',
+                        type=float)
+    parser.add_argument('--verbose',
+                        help='prints verbose output',
+                        action='store_true')
+    parser.add_argument('--out',
+                        help='output file to which to write (it has to be a .csv file)',
+                        type=argparse.FileType('w'))
+    parser.add_argument('--meshes',
+                        help='input mesh files (.obj)',
+                        nargs='*',
+                        type=argparse.FileType('r'))
     args = parser.parse_args()
-    run_mesh_3d()
 
+    if args.verbose:
+        print("Starting to read the mesh files...")
 
-    print("Verbose is "+ args.verbose.__str__())
+    reader = ObjReader(args.verbose, DimensionOrder(args.dim))
+    meshes = map(reader.read, args.meshes)
 
+    if args.verbose:
+        print("Finished reading in the mesh files.")
 
-"""
+    if args.verbose:
+        print("Calculating the bounding box...")
 
-  def main(args: Array[String]) {
-    parser.parse(args, Config()) match {
-      case Some(config) =>
-        val startTime = Calendar.getInstance.getTimeInMillis
-        runMesh3D(config)
-        val finishTime = Calendar.getInstance.getTimeInMillis
-        println("Completed mesh quadrats in " + (finishTime - startTime) / 1000 + " seconds")
-      case None =>
-    }
-  }
+        bounding_box = BoundingBox(meshes)
 
-  def runMesh3D(config: Config): Unit = {
-    val reader = new MeshReader(config.verbose, new DimensionOrder(config.dim))
-    val files = config.files.par
+    if args.verbose:
+        print("Finished calculating the bounding box.")
+        #print("Bounding box is of length" + l)
+        # print("A: " + str(bounding_box.vertex_1))
+        # print("B: " + str(bounding_box.vertex_2))
+        # print("C: " + str(bounding_box.vertex_3))
+        # print("D: " + str(bounding_box.vertex_4))
 
-    // Read in each mesh, creating a list of vertices and faces
-    val meshes = files.map(x => reader.read(x))
-    if (config.verbose) println("Finished reading in the mesh files")
+    # Generate virtual quadrats using the centroid of the bounding box
+    if args.verbose:
+        print("Generating the quadrats inside the bounding box...")
 
-    // Calculate the minimum bounding box that covers all the meshes
-    val boundingBox = new BoundingBox(meshes)
-    if (config.verbose) {
-      println("Finished constructing the bounding box:")
-      println("A: " + boundingBox.a)
-      println("B: " + boundingBox.b)
-      println("C: " + boundingBox.c)
-      println("D: " + boundingBox.d)
-    }
+    quadrat_builder = QuadratBuilder()
+    quadrats = quadrat_builder.build(bounding_box, args.size)
 
-    // Generate virtual qudrats using the centroid of the bounding box
-    val quadratBuilder = new QuadratBuilder()
-    val quadrats = config.size.map(size => quadratBuilder.build(boundingBox, size))
-    if (config.verbose) {
-      print("Finished generating quadrats of sizes " + config.size.mkString(",") + " of which there were ")
-      quadrats.foreach(quadrat => if (quadrats.head == quadrat) print(quadrat.size) else print("," + quadrat.size))
-      print(" respectively.\n")
-    }
+    if args.verbose:
+        print("Finished generating all the quadrats.")
 
-    // Calculate the 3d & 2D areas of the quadrats, also returns the number of faces and vertices
-    val areas = meshes.map(x => x.getArea(quadrats))
-    if (config.verbose) println("Finished calculating the 2D and 3D areas of the quadrats")
+    if args.verbose:
+        print("Calculating the area...")
 
-    // Write the output to a CSV file
-    val writer = new MeshCsvWriter()
-    writer.write(config.out, files.toList, quadrats, config.size.toList, areas, config.append)
-    if (config.verbose) println("Finished writing to " + config.out)
-  }
+    areas = map(lambda x: x.get_area(quadrats), meshes)
 
+    if args.verbose:
+        print("Finished calculating the area.")
 
-}
-"""
+    if args.verbose:
+        print("Writing the output to a .csv file...")
+
+    writer = CsvWriter()
+    writer.write(arg.out, files.toList, quadrats, arg.size, areas)
+
+    if args.verbose:
+        print("Finished writing to " + arg.out.name)

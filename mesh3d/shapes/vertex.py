@@ -7,9 +7,9 @@ class Vertex(object):
 
     def __init__(self, x, y, z):
         """Create a vertex with three points, x, y & z."""
-        self.x = x
-        self.y = y
-        self.z = z
+        self.x = float(x)
+        self.y = float(y)
+        self.z = float(z)
 
     def distance_to_xyz(self, to_vertex):
         """Get the distance between vertexs in XYZ plane."""
@@ -24,14 +24,20 @@ class Vertex(object):
 
     def __str__(self):
         """Pretty prints the vertex."""
-        print("x=" + self.x + ", y=" + self.y + ", z=" + self.z)
+        print("x=" + str(self.x) + ", y=" + str(self.y) + ", z=" + str(self.z))
 
     def __eq__(self, other):
         """Check the vertex equals another, returns a Boolean."""
         if type(other) is type(self):
-            return (self.x == other.x & self.y == other.y & self.z == other.z)
+            return (self.x == other.x and self.y == other.y and self.z == other.z)
+        return False
+
+    def __lt__(self, other):
+        """Check the vertex equals another, returns a Boolean."""
+        if type(other) is type(self):
+            return (self.x < other.x and self.y < other.y and self.z < other.z)
         return False
 
     def __hash__(self):
         """Hash code for vertex."""
-        return hash(self.x, self.y, self.z)
+        return hash(self.x * self.y * self.z)
