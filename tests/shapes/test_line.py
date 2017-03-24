@@ -1,37 +1,37 @@
-import unittest
 import math
-from nose.tools import *
-from mesh3d.shapes.line import Line
-from mesh3d.shapes.vertex import Vertex
+import pytest
+from mesh3d.shapes.line import *
+from mesh3d.shapes.vertex import *
 
 
-class TestLine(unittest.TestCase):
+class TestLine:
 
-    def setUp(self):
-        pass
+    def test_line_contructor_not_none(self):
+        self.my_line = Line(Vertex(0, 0, 0), Vertex(1, 1, 1))
+        assert self.my_line is not None
 
-    def tearDown(self):
-        pass
-
-    def test_line_contructor(self):
+    def test_line_start_vertex(self):
         """Constructor test."""
-        test_line = Line(Vertex(0, 0, 0), Vertex(1, 1, 1))
-        assert test_line is not None
-        assert test_line.start == Vertex(0, 0, 0)
-        assert test_line.end == Vertex(1, 1, 1)
-        assert test_line.x_displacement == 1
-        assert test_line.y_displacement == 1
+        self.my_line = Line(Vertex(0, 0, 0), Vertex(1, 1, 1))
+        assert self.my_line.start == Vertex(0, 0, 0)
 
-    def test_slope(self):
-        """Slope test."""
-        test_line = Line(Vertex(0, 0, 0), Vertex(1, 1, 1))
-        assert test_line.slope() == 1
+    def test_line_end_vertex(self):
+        """Constructor test."""
+        self.my_line = Line(Vertex(0, 0, 0), Vertex(1, 1, 1))
+        assert self.my_line.end == Vertex(1, 1, 1)
 
-    def test_midpoint(self):
+    def test_line_slope(self):
+        """Constructor test."""
+        self.my_line = Line(Vertex(0, 0, 0), Vertex(1, 1, 1))
+        assert (self.my_line.slope, 1.0)
+
+    def test_line_midpoint(self):
         """Midpoint test."""
-        test_line = Line(Vertex(0, 0, 0), Vertex(1, 1, 1))
-        assert test_line.midpoint() == Vertex(0.5, 0.5, 0.5)
+        self.my_line = Line(Vertex(0, 0, 0), Vertex(1, 1, 1))
+        assert (self.my_line.midpoint, Vertex(0.5, 0.5, 0.5))
 
-    def test_length(self):
-        test_line = Line(Vertex(0, 0, 0), Vertex(1, 1, 1))
-        assert test_line.length() == math.sqrt(pow(1, 2) + pow(1, 2))
+    def test_line_length(self):
+        """Length test."""
+        self.my_line = Line(Vertex(0, 0, 0), Vertex(1, 1, 1))
+        length = math.sqrt(math.pow(1.0, 2) + math.pow(1.0, 2))
+        assert (self.my_line.length, length)
