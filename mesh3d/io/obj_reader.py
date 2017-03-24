@@ -30,11 +30,12 @@ class ObjReader(object):
         is_zero_vn = False
 
         for line in file:
-            instructions = line.split(" ")
+            instructions = line.rstrip().split()
             if len(instructions) > 0:
                 if instructions[0] == "v":
                 #    if is_zero_vn is False:
-                        self.vertices.append(self._create_vertex(instructions))
+                    # print(instructions)
+                    self.vertices.append(self._create_vertex(instructions))
                 # elif instructions[0] == "vn":
                 #     if float(instructions[1]) == 0.0:
                 #         is_zero_vn = True
@@ -42,9 +43,9 @@ class ObjReader(object):
                 #         is_zero_vn = False
                 elif instructions[0] == "f":
                     self.faces.append(self._create_face(instructions))
-                else:
-                    pass
+                # else:
+
 
         if self.verbose:
-            print("Vertices: " + len(self.vertices).__str__() + ", Faces: " + len(self.faces).__str__())
+            print("Vertices: " + str(len(self.vertices)) + ", Faces: " + str(len(self.faces)))
         return Mesh(self.vertices, self.faces)

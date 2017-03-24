@@ -1,5 +1,6 @@
 import math
 from line import Line
+from vertex import Vertex
 
 
 class Quadrilateral(object):
@@ -18,15 +19,15 @@ class Quadrilateral(object):
                     Line(self.vertex_2, self.vertex_4).midpoint()).midpoint()
 
     def contains(self, vertex):
-        return _ray_casting(vertex)
+        return self._ray_casting(vertex)
 
     def _ray_casting(self, vertex):
-        return _is_odd(sum(_ray_intersect_segment(vertex, edge) for edge in self.edges))
+        return self._is_odd(sum(self._ray_intersect_segment(vertex, edge) for edge in self.edges))
 
-    def _is_odd(number):
+    def _is_odd(self, number):
         return number % 2 != 0
 
-    def _ray_intersect_segment(vertex, edge):
+    def _ray_intersect_segment(self, vertex, edge):
         '''
         Takes a point p=Pt() and an edge of two endpoints a,b=Pt()
         of a line segment returns boolean.
@@ -34,13 +35,13 @@ class Quadrilateral(object):
         _epsilon = 0.00001
 
         if edge.start.y > edge.end.y:
-            return _ray_intersect_segment(vertex, Line(edge.end, edge.start))
+            return self._ray_intersect_segment(vertex, Line(edge.end, edge.start))
         elif vertex.y == edge.start.y or vertex.y == edge.end.y:
-            return _ray_intersect_segment(Vertex(vertex.x, vertex.y + _epsilon, 0), edge)
+            return self._ray_intersect_segment(Vertex(vertex.x, vertex.y + _epsilon, 0), edge)
         elif vertex.y > edge.end.y or vertex.y < edge.start.y or vertex.x > max(edge.start.x, edge.end.x):
-            return false
+            return False
         elif vertex.x < min(edge.start.x, edge.end.x):
-            return true
+            return True
         else:
             left = sys.maxsize
             right = sys.maxsize
@@ -48,7 +49,10 @@ class Quadrilateral(object):
                 left = (vertex.y - edge.start.y) / (vertex.x - edge.start.x)
             if abs(edge.start.x - edge.end.x) > sys.minsize:
                 right = (edge.end.y - edge.start.y) / (edge.end.x - edge.start.x)
-            return left >= right
+                return left >= right
 
     def __in_bounding_box(self, vertex):
-        (vertex.x > self.vertex_1.x and vertex.x < self.vertex_4.x) and (vertex.y > vertex_3.y and vertex.y < vertex_2.y)
+        return (vertex.x > self.vertex_1.x and vertex.x < self.vertex_4.x) and (vertex.y > vertex_3.y and vertex.y < vertex_2.y)
+
+    def __str__(self):
+        return "v1: " + str(self.vertex_1) + ", v2: " + str(self.vertex_2) + ", v3: " + str(self.vertex_3) + ", v4" + str(self.vertex_4)

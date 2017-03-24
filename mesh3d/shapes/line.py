@@ -9,8 +9,8 @@ class Line(object):
         """Constructor takes a start and end vertex."""
         self.start = start
         self.end = end
-        self.x_displacement = end.x - start.x
-        self.y_displacement = end.y - start.y
+        self.x_displacement = float(end.x - start.x)
+        self.y_displacement = float(end.y - start.y)
 
     def slope(self):
         """Get the slope of the line."""

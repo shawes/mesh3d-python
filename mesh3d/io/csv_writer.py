@@ -1,40 +1,44 @@
 import os.path
+import itertools
 
 
 class CsvWriter(object):
 
-    def write(output_file, files, quadrats_list, quadrat_size, areas_3D, areas_2D):
+    def write(self, args, quadrats, areas):
         # Strip extensions off filenames
+        csv_file = args.out
+        files = args.meshes
+        quadrat_size = args.size
         names = map(lambda x: x.name.split('.')[0], files)
-        files_exists = os.path.isfile(output_file)
-        csv_file = file.open(output_file)
+        areas = list(itertools.chain.from_iterable(areas))
+        #files_exists = os.path.isfile(output_file)
+        #csv_file = file.open(output_file)
+
 
         # Write headers if new file
-        if files_exists is True:
-            csv_file.writeline("mesh_name, quadrat_size_m, quadrat_coord_x, quadrat_coord_y," +
-                                "quadrat_centroid_x, quadrat_centroid_y, faces, 3d_area, 2d_area, rugosity")
-
-        areas_3D_merged = list(itertools.chain.from_iterable(
-            list(itertools.chain.from_iterable(areas_3D))))
-        areas_2D_merged = list(itertools.chain.from_iterable(
-            list(itertools.chain.from_iterable(areas_2D))))
+        #if files_exists is True:
+        csv_file.write("mesh_name, quadrat_size_m, quadrat_coord_x, quadrat_coord_y," +
+                                "quadrat_centroid_x, quadrat_centroid_y, faces, 3d_area, 2d_area, rugosity\n")
 
         area_index = 0
-        size_index = 0
+        #size_index = 0
         for name in names:
-            for mesh_quadrats in quadrats:
-                for quadrat in mesh_quadrats:
-                    area3d = (areas_3D_merged[area_index])[0]
-                    area2d = areas_2D_merged[area_index][0]
-                    faces = areas_3D_merged[area_index][1]
+            print(name)
+            for quadrat in quadrats:
+                print(str(quadrat.id[0]) + " " + str(quadrat.id[1]))
+                area_info = areas[area_index]
+                area3d = area_info[0]
+                area2d = area_info[1]
+                faces = area_info[2]
+                vertices = area_info[3]
+                rugosity = 0
+                if(area2d > 0):
                     rugosity = area3d / area2d
-                    if area3d > 0 and area2d > 0:
-                        csv_file.writeline(name + "," + sizes[size_index] + "," + quadrat.id[0] + "," +
-                                           quadrat.id[1] + "," + quadrat.midpoint.x + "," + quadrat.midpoint.y + "," +
-                                           faces + "," + area3d + "," + area2d + "," + rugosity)
-
-                    area_index += 1
-                size_index += 1
-            size_ndex += 0
+                if area3d > 0 and area2d > 0:
+                    csv_file.writeline(name + "," + str(size) + "," + str(quadrat.id[0]) + "," +
+                                       str(quadrat.id[1]) + "," + quadrat.midpoint.x + "," + quadrat.midpoint.y + "," +
+                                       faces + "," + vertices + "," + area3d + "," + area2d + "," + rugosity)
+                area_index += 1
+                #size_index += 1
         csv_file.flush()
         csv_file.close()

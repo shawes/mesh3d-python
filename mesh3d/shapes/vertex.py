@@ -24,7 +24,7 @@ class Vertex(object):
 
     def __str__(self):
         """Pretty prints the vertex."""
-        print("x=" + str(self.x) + ", y=" + str(self.y) + ", z=" + str(self.z))
+        return "x=" + str(self.x) + ", y=" + str(self.y) + ", z=" + str(self.z)
 
     def __eq__(self, other):
         """Check the vertex equals another, returns a Boolean."""

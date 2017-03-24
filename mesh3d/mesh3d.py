@@ -31,51 +31,52 @@ class Mesh3d(object):
                         type=argparse.FileType('r'))
     args = parser.parse_args()
 
-    if args.verbose:
-        print("Starting to read the mesh files...")
+    def read_in_meshes(args):
+        if args.verbose:
+            print("Starting to read the mesh files...")
+        reader = ObjReader(args.verbose, DimensionOrder(args.dim))
+        meshes = map(reader.read, args.meshes)
+        if args.verbose:
+            print("Finished reading in the mesh files.")
+        return meshes
 
-    reader = ObjReader(args.verbose, DimensionOrder(args.dim))
-    meshes = map(reader.read, args.meshes)
-
-    if args.verbose:
-        print("Finished reading in the mesh files.")
-
-    if args.verbose:
-        print("Calculating the bounding box...")
-
+    def calculate_bounding_box(args, meshes):
+        if args.verbose:
+            print("Calculating the bounding box...")
         bounding_box = BoundingBox(meshes)
+        print("Bounding box is " + str(bounding_box))
+        if args.verbose:
+            print("Finished calculating the bounding box.")
+        return bounding_box
 
-    if args.verbose:
-        print("Finished calculating the bounding box.")
-        #print("Bounding box is of length" + l)
-        # print("A: " + str(bounding_box.vertex_1))
-        # print("B: " + str(bounding_box.vertex_2))
-        # print("C: " + str(bounding_box.vertex_3))
-        # print("D: " + str(bounding_box.vertex_4))
+    def fit_quadrats_to_meshes(args, bounding_box):
+        if args.verbose:
+            print("Generating the quadrats inside the bounding box...")
+        quadrat_builder = QuadratBuilder()
+        quadrats = quadrat_builder.build(bounding_box, args.size)
+        print("There are this many quadrats: " + str(len(quadrats)))
+        if args.verbose:
+            print("Finished generating all the quadrats.")
+        return quadrats
 
-    # Generate virtual quadrats using the centroid of the bounding box
-    if args.verbose:
-        print("Generating the quadrats inside the bounding box...")
+    def calculate_areas_faces_in_quadrats(args, meshes, quadrats):
+        if args.verbose:
+            print("Calculating the area...")
+        areas = map(lambda x: x.get_area(quadrats), meshes)
+        if args.verbose:
+            print("Finished calculating the area.")
+        return areas
 
-    quadrat_builder = QuadratBuilder()
-    quadrats = quadrat_builder.build(bounding_box, args.size)
+    def write_output(args, quadrats, areas):
+        if args.verbose:
+            print("Writing the output to a .csv file...")
+        writer = CsvWriter()
+        writer.write(args, quadrats, areas)
+        if args.verbose:
+            print("Finished writing to " + args.out.name)
 
-    if args.verbose:
-        print("Finished generating all the quadrats.")
-
-    if args.verbose:
-        print("Calculating the area...")
-
-    areas = map(lambda x: x.get_area(quadrats), meshes)
-
-    if args.verbose:
-        print("Finished calculating the area.")
-
-    if args.verbose:
-        print("Writing the output to a .csv file...")
-
-    writer = CsvWriter()
-    writer.write(arg.out, files.toList, quadrats, arg.size, areas)
-
-    if args.verbose:
-        print("Finished writing to " + arg.out.name)
+    meshes = read_in_meshes(args)
+    bounding_box = calculate_bounding_box(args, meshes)
+    quadrats = fit_quadrats_to_meshes(args, bounding_box)
+    areas = calculate_areas_faces_in_quadrats(args, meshes, quadrats)
+    write_output(args, quadrats, areas)
