@@ -99,5 +99,7 @@ ENV/
 
 # End of https://www.gitignore.io/api/python
 
-# Testing input files
-test/input/
+# Custom extras to ignore
+tests/input/
+tests/output/
+*.txt
