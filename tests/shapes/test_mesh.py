@@ -6,10 +6,26 @@ from mesh3d.shapes.face import Face
 
 
 class TestMesh:
+    pass
 
-    def test_mesh_contructor(self):
-        """Constructor test."""
-        vertices_stub = mocker.stub("vertices_stub")
-        faces_stub = mocker.stub("faces_stub")
-        mesh = Mesh(vertices_stub, faces_stub)
-        assert mesh is not None
+#     def test_mesh_contructor(mocker):
+#         """Constructor test."""
+#         vertices = list()
+#         faces = list()
+#         shapes_patch = mocker.patch('mesh3d.shapes')
+#         vertex_path = shapes_patch.object(vertex,'__init__')
+#
+#
+#         # faces_stub = mocker.stub(faces)
+#         # mesh = Mesh(vertices_stub, faces_stub)
+#         assert mesh is not None
+#
+#
+# def test_stub(mocker):
+#     def foo(on_something):
+#         on_something('foo', 'bar')
+#
+#     stub = mocker.stub(name='on_something_stub')
+#
+#     foo(stub)
+#     stub.assert_called_once_with('foo', 'bar')

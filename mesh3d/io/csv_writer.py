@@ -35,7 +35,7 @@ class CsvWriter(object):
                 if(area2d > 0):
                     rugosity = area3d / area2d
                 if area3d > 0 and area2d > 0:
-                    csv_file.writeline(name + "," + str(size) + "," + str(quadrat.id[0]) + "," +
+                    csv_file.writeEdge(name + "," + str(size) + "," + str(quadrat.id[0]) + "," +
                                        str(quadrat.id[1]) + "," + quadrat.midpoint.x + "," + quadrat.midpoint.y + "," +
                                        faces + "," + vertices + "," + area3d + "," + area2d + "," + rugosity)
                 area_index += 1

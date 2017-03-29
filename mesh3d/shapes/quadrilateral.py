@@ -1,5 +1,5 @@
 import math
-from line import Line
+from edge import Edge
 from vertex import Vertex
 
 
@@ -11,12 +11,12 @@ class Quadrilateral(object):
         self.vertex_3 = vertex_3
         self.vertex_4 = vertex_4
         self.vertices = [vertex_1, vertex_2, vertex_3, vertex_4]
-        self.edges = [Line(vertex_1, vertex_2), Line(vertex_2, vertex_3),
-                      Line(vertex_3, vertex_4), Line(vertex_4, vertex_1)]
+        self.edges = [Edge(vertex_1, vertex_2), Edge(vertex_2, vertex_3),
+                      Edge(vertex_3, vertex_4), Edge(vertex_4, vertex_1)]
 
     def centroid(self):
-        return Line(Line(self.vertex_1, self.vertex_3).midpoint(),
-                    Line(self.vertex_2, self.vertex_4).midpoint()).midpoint()
+        return Edge(Edge(self.vertex_1, self.vertex_3).midpoint,
+                    Edge(self.vertex_2, self.vertex_4).midpoint).midpoint
 
     def contains(self, vertex):
         return self._ray_casting(vertex)
@@ -30,12 +30,12 @@ class Quadrilateral(object):
     def _ray_intersect_segment(self, vertex, edge):
         '''
         Takes a point p=Pt() and an edge of two endpoints a,b=Pt()
-        of a line segment returns boolean.
+        of a Edge segment returns boolean.
         '''
         _epsilon = 0.00001
 
         if edge.start.y > edge.end.y:
-            return self._ray_intersect_segment(vertex, Line(edge.end, edge.start))
+            return self._ray_intersect_segment(vertex, Edge(edge.end, edge.start))
         elif vertex.y == edge.start.y or vertex.y == edge.end.y:
             return self._ray_intersect_segment(Vertex(vertex.x, vertex.y + _epsilon, 0), edge)
         elif vertex.y > edge.end.y or vertex.y < edge.start.y or vertex.x > max(edge.start.x, edge.end.x):

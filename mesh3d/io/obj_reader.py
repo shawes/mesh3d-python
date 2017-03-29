@@ -1,11 +1,12 @@
 from shapes.mesh import Mesh
 from shapes.face import Face
+#import pdb
 
 
 class ObjReader(object):
 
-    vertices = list()
-    faces = list()
+    vertices = None
+    faces = None
 
     def __init__(self, verbose, order):
         self.verbose = verbose
@@ -18,9 +19,10 @@ class ObjReader(object):
 
     def _create_face(self, instructions):
         """Create a face using the instructions."""
-        v1 = instructions[1].split("/")
-        v2 = instructions[1].split("/")
-        v3 = instructions[1].split("/")
+        v1 = instructions[1]
+        v2 = instructions[2]
+        v3 = instructions[3]
+        # pdb.set_trace()
         return Face(self.vertices[int(v1[0]) - 1], self.vertices[int(v2[0]) - 1], self.vertices[int(v3[0]) - 1])
 
     def read(self, file):
@@ -29,8 +31,8 @@ class ObjReader(object):
         self.faces = list()
         is_zero_vn = False
 
-        for line in file:
-            instructions = line.rstrip().split()
+        for Edge in file:
+            instructions = Edge.rstrip().split()
             if len(instructions) > 0:
                 if instructions[0] == "v":
                 #    if is_zero_vn is False:

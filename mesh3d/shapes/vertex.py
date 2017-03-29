@@ -22,6 +22,9 @@ class Vertex(object):
         return math.sqrt(math.pow(to_vertex.x - self.x, 2) +
                          math.pow(to_vertex.y - self.y, 2))
 
+    def make_xy(self):
+        return Vertex(self.x, self.y, 0)
+
     def __str__(self):
         """Pretty prints the vertex."""
         return "x=" + str(self.x) + ", y=" + str(self.y) + ", z=" + str(self.z)

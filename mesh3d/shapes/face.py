@@ -1,6 +1,7 @@
-"""face.py."""
 import math
 from vertex import Vertex
+from edge import Edge
+# import pdb
 
 
 class Face(object):
@@ -8,35 +9,41 @@ class Face(object):
 
     def __init__(self, vertex1, vertex2, vertex3):
         """Constructor."""
-        self.v1 = vertex1
-        self.v2 = vertex2
-        self.v3 = vertex3
+        self.vertices = [vertex1, vertex2, vertex3]
+        self.centroid = Vertex((vertex1.x + vertex2.x + vertex3.x) / 3,
+                               (vertex1.y + vertex2.y + vertex3.y) / 3,
+                               (vertex1.z + vertex2.z + vertex3.z) / 3)
+        self.edges = [Edge(vertex1,vertex2),Edge(vertex2,vertex3), Edge(vertex3,vertex1)]
+        self.edges_xy = [Edge(vertex1.make_xy(),vertex2.make_xy()),Edge(vertex2.make_xy(),vertex3.make_xy()),
+                          Edge(vertex3.make_xy(),vertex1.make_xy())]
+        #self.area3d = self._calc_area3d(vertices[0], vertices[1], vertices[2])
+        #self.area2d = self._calc_area2d(vertices[0], vertices[1], vertices[2])
 
-    def centroid(self):
-        """Get the centroid of the face."""
-        return Vertex((self.v1.x + self.v2.x + self.v3.x) / 3,
-                      (self.v1.y + self.v2.y + self.v3.y) / 3,
-                      (self.v1.z + self.v2.z + self.v3.z) / 3)
-
-    def get_area_3d(self):
-        """Get the 3-dimensional area of the face."""
-        edge1 = self.v1.distance_to_xyz(self.v2)
-        edge2 = self.v2.distance_to_xyz(self.v3)
-        edge3 = self.v3.distance_to_xyz(self.v1)
-        return self._area(edge1, edge2, edge3)
-
-    def get_area_2d(self):
-        """Get the 2-dimensional area of the face."""
-        edge1 = self.v1.distance_to_xy(self.v2)
-        edge2 = self.v2.distance_to_xy(self.v3)
-        edge3 = self.v3.distance_to_xy(self.v1)
-        return self._area(edge1, edge2, edge3)
-
-    def _area(self, edge1, edge2, edge3):
-        semiperimeter = (edge1 + edge2 + edge3) * 0.5
-        area = math.sqrt(semiperimeter * (semiperimeter - edge1) *
-                         (semiperimeter - edge2) * (semiperimeter - edge3))
+    def area(self, is_3d):
+        # pdb.set_trace()
+        length_edge1 = 0
+        length_edge2 = 0
+        length_edge3 = 0
+        if(is_3d):
+            length_edge1 = self.edges[0]
+            length_edge2 = self.edges[1]
+            length_edge3 = self.edges[2]
+        else:
+            length_edge1 = edges_xy[0]
+            length_edge2 = edges_xy[1]
+            length_edge3 = edges_xy[2]
+        semiperimeter = (length_edge1 + length_edge2 + length_edge3) * 0.5
+        area = math.sqrt(semiperimeter * (semiperimeter - length_edge1) *
+                         (semiperimeter - length_edge2) * (semiperimeter - length_edge3))
+        # print("SP = " + str(semiperimeter) + ", area of face is: " + str(area))
+        if(area == 0.0):
+            print("----------")
+            print("Size: " + str(is_3d))
+            print(str(self.vertices[0]))
+            print(str(self.vertices[1]))
+            print(str(self.vertices[2]))
+            print("----------")
         return area
 
     def __str__(self):
-        print("centroid is " + self.centroid())
+        print("centroid is " + str(self.centroid))
