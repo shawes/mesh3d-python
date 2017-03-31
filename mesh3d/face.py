@@ -29,12 +29,12 @@ class Face(object):
             length_edge2 = self.edges[1]
             length_edge3 = self.edges[2]
         else:
-            length_edge1 = edges_xy[0]
-            length_edge2 = edges_xy[1]
-            length_edge3 = edges_xy[2]
-        semiperimeter = (length_edge1 + length_edge2 + length_edge3) * 0.5
-        area = math.sqrt(semiperimeter * (semiperimeter - length_edge1) *
-                         (semiperimeter - length_edge2) * (semiperimeter - length_edge3))
+            length_edge1 = self.edges_xy[0]
+            length_edge2 = self.edges_xy[1]
+            length_edge3 = self.edges_xy[2]
+        semiperimeter = (length_edge1.length + length_edge2.length + length_edge3.length) * 0.5
+        area = math.sqrt(semiperimeter * (semiperimeter - length_edge1.length) *
+                         (semiperimeter - length_edge2.length) * (semiperimeter - length_edge3.length))
         # print("SP = " + str(semiperimeter) + ", area of face is: " + str(area))
         if(area == 0.0):
             print("----------")

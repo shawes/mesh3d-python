@@ -1,26 +1,27 @@
-from shapes.quadrilateral import Quadrilateral
-from shapes.vertex import Vertex
+from quadrilateral import Quadrilateral
+from vertex import Vertex
 
 
 class Quadrat(Quadrilateral):
-
-    relative_z_avg = 0.0
-    relative_z_std = 0.0
 
     def __init__(self, id, size, midpoint):
         self.id = id
         self.size = size
         self.midpoint = midpoint
+        self.relative_z_mean = 0.0
+        self.relative_z_sd = 0.0
         Quadrilateral.__init__(self,
             Vertex((midpoint.x - size) / 2, (midpoint.y - size) / 2, midpoint.z),
-            Vertex((midpoint.x - size) / 2, (midpoint.y + size) / 2, midpoint.z),
             Vertex((midpoint.x + size) / 2, (midpoint.y - size) / 2, midpoint.z),
-            Vertex((midpoint.x + size) / 2, (midpoint.y + size) / 2, midpoint.z))
+            Vertex((midpoint.x + size) / 2, (midpoint.y + size) / 2, midpoint.z),
+            Vertex((midpoint.x - size) / 2, (midpoint.y + size) / 2, midpoint.z))
 
-    def contains(self, vertex):
-        x_test = vertex.x > self.vertex_1.x and vertex.x < self.vertex_4.x
-        y_test = vertex.y > self.vertex_1.y and vertex.y < self.vertex_2.y
-        return x_test and y_test
+    def contains(self, face):
+        vertex = face.centroid
+        inside_x = vertex.x >= self.vertex_1.x and vertex.x <= self.vertex_2.x
+        inside_y = vertex.y >= self.vertex_1.y and vertex.y <= self.vertex_4.y
+        inside = inside_x and inside_y
+        return inside
 
     def area(self):
         return size*size

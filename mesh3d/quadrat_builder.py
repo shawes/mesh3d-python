@@ -1,7 +1,7 @@
-from shapes.edge import Edge
-from shapes.vertex import Vertex
+from edge import Edge
+from vertex import Vertex
 from quadrat import Quadrat
-import pdb
+#import pdb
 
 
 class QuadratBuilder(object):
@@ -24,8 +24,7 @@ class QuadratBuilder(object):
         distance_to_edge2 = centroid.distance_to_xyz(edge2_midpoint)
         quadrat_indexes2 = range(int(distance_to_edge2 / size) + 1)
 
-        pdb.set_trace()
-
+        #pdb.set_trace()
 
         # (i <- 0 until (distanceToEdgeCD / size).toInt + 1)
         quadrats = list()
@@ -35,7 +34,7 @@ class QuadratBuilder(object):
                 if index_i == 0 and index_j == 0:
                     quadrats.append(Quadrat((0, 0), size, centroid))
                 else:
-                    print("Got here")
+                    #print("Got here")
                     four_quadrats = [Quadrat((index_i, index_j), size,
                                                  Vertex(centroid.x + index_i * size, centroid.y + (index_j * size), centroid.z)),
                                          Quadrat((index_i, index_j * -1), size,
@@ -44,8 +43,8 @@ class QuadratBuilder(object):
                                                  Vertex(centroid.x - index_i * size, centroid.y + (index_j * size), centroid.z)),
                                          Quadrat((index_i * -1, index_j * -1), size,
                                                  Vertex(centroid.x - index_i * size, centroid.y - (index_j * size), centroid.z))]
-                    pdb.set_trace()
-                    quadrats_inside = list(filter(lambda x: box.contains(x.midpoint, four_quadrats))
+                    #pdb.set_trace()
+                    quadrats_inside = list(filter(lambda x: box.contains(x.midpoint), four_quadrats))
                     quadrats += quadrats_inside
         print("There are this many quadrats: " + str(len(quadrats)))
         return list(set(quadrats))
