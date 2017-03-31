@@ -1,6 +1,6 @@
 import pytest
 import math
-from mesh3d.shapes.vertex import Vertex
+from mesh3d.vertex import Vertex
 import pdb
 
 

@@ -1,8 +1,5 @@
 import pytest
-import mock
-from mesh3d.shapes.mesh import Mesh
-from mesh3d.shapes.vertex import Vertex
-from mesh3d.shapes.face import Face
+from .context import mesh3d
 
 
 class TestMesh:

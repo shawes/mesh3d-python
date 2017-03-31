@@ -2,32 +2,28 @@ import os.path
 import itertools
 from mesh import Mesh
 from face import Face
+#import numpy
 import metrics
 import pdb
 
 
 def read_obj(file, verbose, order):
-    vertices = list()
-    faces = list()
+    vertices = []
+    faces = []
     is_zero_vn = False
     for line in file:
         instructions = line.rstrip().split()
         if len(instructions) > 0:
             if instructions[0] == "v":
-                #    if is_zero_vn is False:
-                # print(instructions)
                 vertices.append(_create_vertex(instructions, order))
-            # elif instructions[0] == "vn":
-            #     if float(instructions[1]) == 0.0:
-            #         is_zero_vn = True
-            #     else:
-            #         is_zero_vn = False
             elif instructions[0] == "f":
                 faces.append(_create_face(instructions, vertices))
             else:
                 pass
     if verbose is True:
         print("Vertices: " + str(len(vertices)) + ", Faces: " + str(len(faces)))
+    #vertices_array = numpy.asarray(vertices)
+    #faces_array = numpy.asarray(faces)
     return Mesh(vertices, faces)
 
 

@@ -1,18 +1,17 @@
 import math
 import pytest
-from mesh3d.shapes.edge import *
-from mesh3d.shapes.vertex import *
+from .context import mesh3d
 
 
-class Testedge:
+class TestEdge:
 
     def test_edge_contructor_not_none(self):
-        self.my_edge = Edge(Vertex(0, 0, 0), Vertex(1, 1, 1))
+        self.my_edge = edge.Edge(Vertex(0, 0, 0), Vertex(1, 1, 1))
         assert self.my_edge is not None
 
     def test_edge_start_vertex(self):
         """Constructor test."""
-        self.my_edge = Edge(Vertex(0, 0, 0), Vertex(1, 1, 1))
+        self.my_edge = mesh3d.edge.Edge(Vertex(0, 0, 0), Vertex(1, 1, 1))
         assert self.my_edge.start == Vertex(0, 0, 0)
 
     def test_edge_end_vertex(self):

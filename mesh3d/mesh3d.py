@@ -30,7 +30,10 @@ def read_in_meshes(args):
     if args.verbose:
         print("Starting to read the mesh files...")
     #reader = mesh_io.read_obj(args.verbose, DimensionOrder(args.dim))
-    meshes = list(map(lambda x: mesh_io.read_obj(x, args.verbose, DimensionOrder(args.dim)), args.meshes))
+    meshes = []
+    for mesh in args.meshes:
+        meshes.append(mesh_io.read_obj(mesh, args.verbose, DimensionOrder(args.dim)))
+    # meshes = list(map(lambda x: mesh_io.read_obj(x, args.verbose, DimensionOrder(args.dim)), args.meshes))
     if args.verbose:
         print("Finished reading in the mesh files.")
     return meshes
@@ -57,7 +60,7 @@ def fit_quadrats_to_meshes(args, bounding_box):
 def calculate_areas_faces_in_quadrats(args, meshes, quadrats):
     if args.verbose:
         print("Calculating the area...")
-    pdb.set_trace()
+    #pdb.set_trace()
     areas = list()
     for mesh in meshes:
         areas += mesh.get_area(quadrats)

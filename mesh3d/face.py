@@ -36,14 +36,14 @@ class Face(object):
         area = math.sqrt(semiperimeter * (semiperimeter - length_edge1.length) *
                          (semiperimeter - length_edge2.length) * (semiperimeter - length_edge3.length))
         # print("SP = " + str(semiperimeter) + ", area of face is: " + str(area))
-        if(area == 0.0):
-            print("----------")
-            print("Size: " + str(is_3d))
-            print(str(self.vertices[0]))
-            print(str(self.vertices[1]))
-            print(str(self.vertices[2]))
-            print("----------")
-        return area
+        # if(area == 0.0):
+        #     print("----------")
+        #     print("Size: " + str(is_3d))
+        #     print(str(self.vertices[0]))
+        #     print(str(self.vertices[1]))
+        #     print(str(self.vertices[2]))
+        #     print("----------")
+        # return area
 
     def __str__(self):
         print("centroid is " + str(self.centroid))

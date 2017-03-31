@@ -1,8 +1,6 @@
 import math
 import pytest
-from mesh3d.shapes.edge import Edge
-from mesh3d.shapes.vertex import Vertex
-from mesh3d.shapes.quadrilateral import Quadrilateral
+from .context import mesh3d
 
 
 class TestQuadrilateral:

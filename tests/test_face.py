@@ -1,7 +1,6 @@
 import math
 import pytest
-from mesh3d.shapes.face import Face
-from mesh3d.shapes.vertex import Vertex
+from .context import mesh3d
 import pdb
 
 
