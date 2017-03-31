@@ -25,7 +25,6 @@ class Mesh(object):
         quadrat_vertices = []
         #pdb.set_trace()
         for face in self.faces:
-            #face.item()
             if quadrat.contains(face):
                 faces_count += 1
                 area2d += face.area(is_3d=False)

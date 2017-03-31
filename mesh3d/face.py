@@ -43,7 +43,7 @@ class Face(object):
         #     print(str(self.vertices[1]))
         #     print(str(self.vertices[2]))
         #     print("----------")
-        # return area
+        return area
 
     def __str__(self):
         print("centroid is " + str(self.centroid))
