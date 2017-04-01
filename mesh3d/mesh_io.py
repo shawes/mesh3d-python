@@ -14,10 +14,16 @@ def read_obj(file, verbose, order):
     for line in file:
         instructions = line.rstrip().split()
         if len(instructions) > 0:
-            if instructions[0] == "v":
+            if instructions[0] == "v" and is_zero_vn is False:
                 vertices.append(_create_vertex(instructions, order))
             elif instructions[0] == "f":
+                #pdb.set_trace()
                 faces.append(_create_face(instructions, vertices))
+            elif instructions[0] == "vn":
+                if (float(instructions[1]) == 0.0):
+                    is_zero_vn = True
+                else:
+                    is_zero_vn = False
             else:
                 pass
     if verbose is True:
@@ -39,6 +45,7 @@ def _create_face(instructions, vertices):
     v3 = instructions[3]
     face = Face(vertices[int(v1[0]) - 1],
                 vertices[int(v2[0]) - 1], vertices[int(v3[0]) - 1])
+    pdb.set_trace()
     return face
 
 def write_csv(args, quadrats, areas):
@@ -69,6 +76,7 @@ def write_csv(args, quadrats, areas):
         # print(name)
         for quadrat in quadrats:
             area_info = areas[area_index]
+            pdb.set_trace()
             area3d = area_info[0]
             area2d = area_info[1]
             faces = area_info[2]
@@ -103,7 +111,6 @@ def write_csv(args, quadrats, areas):
                 csv_file.write(",")
                 csv_file.write(str(rugosity))
                 csv_file.write("\n")
-
             area_index += 1
             #size_index += 1
     csv_file.close()

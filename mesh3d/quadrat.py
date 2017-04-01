@@ -16,12 +16,12 @@ class Quadrat(Quadrilateral):
             Vertex((midpoint.x + size) / 2, (midpoint.y + size) / 2, midpoint.z),
             Vertex((midpoint.x - size) / 2, (midpoint.y + size) / 2, midpoint.z))
 
-    def contains(self, face):
-        vertex = face.centroid
-        inside_x = vertex.x >= self.vertex_1.x and vertex.x <= self.vertex_2.x
-        inside_y = vertex.y >= self.vertex_1.y and vertex.y <= self.vertex_4.y
-        inside = inside_x and inside_y
-        return inside
+    # def contains(self, vertex):
+    #     #vertex = face.centroid
+    #     inside_x = vertex.x >= self.vertex_1.x and vertex.x <= self.vertex_2.x
+    #     inside_y = vertex.y >= self.vertex_1.y and vertex.y <= self.vertex_4.y
+    #     inside = inside_x and inside_y
+    #     return inside
 
     def area(self):
         return size*size

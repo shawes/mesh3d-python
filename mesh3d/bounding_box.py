@@ -13,7 +13,7 @@ class BoundingBox(Quadrilateral):
         max_y = -100000
 
         for mesh in meshes:
-            for vertex in mesh.vertices:
+            for vertex in mesh.values[0]:
                 if vertex.x < min_x:
                   min_x = vertex.x
                 if vertex.x > max_x:

@@ -6,7 +6,7 @@ class DimensionOrder(object):
     Z = 2
 
     def __init__(self, order):
-        self.order = order
+        self.order = str(order)
 
     def get_first(self):
         return self._get_value(self.order[0])

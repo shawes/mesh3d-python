@@ -61,9 +61,9 @@ def calculate_areas_faces_in_quadrats(args, meshes, quadrats):
     if args.verbose:
         print("Calculating the area...")
     #pdb.set_trace()
-    areas = list()
+    areas = []
     for mesh in meshes:
-        areas += mesh.get_area(quadrats)
+        areas.append(mesh.get_area(quadrats))
 
     #areas = list(map(lambda x: x.get_area(quadrats), meshes))
     print("Areas is "+ str(len(areas)))

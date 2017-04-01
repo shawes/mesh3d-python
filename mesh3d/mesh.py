@@ -8,7 +8,7 @@ import pdb
 class Mesh(object):
 
     def __init__(self, vertices, faces):
-        self.vertices = vertices
+        self.values = vertices
         self.faces = faces
         #self.extremes = self._calculate_extremes()
 
@@ -19,16 +19,16 @@ class Mesh(object):
         return area
 
     def _get_area_of_face_in_quadrat(self, quadrat):
-        area2d = 0.0
-        area3d = 0.0
+        area2d = 0
+        area3d = 0
         faces_count = 0
         quadrat_vertices = []
         #pdb.set_trace()
         for face in self.faces:
-            if quadrat.contains(face):
+            if quadrat.contains(face.centroid):
                 faces_count += 1
-                area2d += face.area(is_3d=False)
-                area3d += face.area(is_3d=True)
+                area3d += face.area_3d()
+                area_2d += face.area_2d()
                 quadrat_vertices += face.vertices
             else:
                 pass

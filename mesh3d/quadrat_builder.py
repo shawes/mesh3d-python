@@ -46,5 +46,5 @@ class QuadratBuilder(object):
                     #pdb.set_trace()
                     quadrats_inside = list(filter(lambda x: box.contains(x.midpoint), four_quadrats))
                     quadrats += quadrats_inside
-        print("There are this many quadrats: " + str(len(quadrats)))
+        # print("There are this many quadrats: " + str(len(quadrats)))
         return list(set(quadrats))
