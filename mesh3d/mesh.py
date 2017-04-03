@@ -1,14 +1,14 @@
 from vertex import Vertex
 from face import Face
 import helpers
-#import numpy
+import numpy
 import pdb
 
 
 class Mesh(object):
 
     def __init__(self, vertices, faces):
-        self.values = vertices
+        self.vertices = vertices
         self.faces = faces
         #self.extremes = self._calculate_extremes()
 
@@ -19,16 +19,14 @@ class Mesh(object):
         return area
 
     def _get_area_of_face_in_quadrat(self, quadrat):
-        area2d = 0
-        area3d = 0
-        faces_count = 0
+        counters = [0,0,0]  # (3D area, 2D area, faces count)
         quadrat_vertices = []
         #pdb.set_trace()
-        for face in self.faces:
+        for face in self.faces.flat:
             if quadrat.contains(face.centroid):
-                faces_count += 1
-                area3d += face.area_3d()
-                area_2d += face.area_2d()
+                counters[0] += face.area_3d()
+                counters[1] += face.area_2d()
+                counters[2] += 1
                 quadrat_vertices += face.vertices
             else:
                 pass
@@ -40,7 +38,7 @@ class Mesh(object):
 
         #print("area is " + str(area3d))
         #print("faces count is " + str(faces_count))
-        return (area3d, area2d, faces_count, len(set(quadrat_vertices)))
+        return (counters[0], counters[1], counters[2], len(set(quadrat_vertices)))
 
     # def _calculate_extremes(self):
     #     pdb.set_trace()

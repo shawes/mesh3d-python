@@ -2,14 +2,14 @@ import os.path
 import itertools
 from mesh import Mesh
 from face import Face
-#import numpy
+import numpy
 import metrics
 import pdb
 
 
 def read_obj(file, verbose, order):
     vertices = []
-    faces = []
+    faces_instructions = []
     is_zero_vn = False
     for line in file:
         instructions = line.rstrip().split()
@@ -18,7 +18,7 @@ def read_obj(file, verbose, order):
                 vertices.append(_create_vertex(instructions, order))
             elif instructions[0] == "f":
                 #pdb.set_trace()
-                faces.append(_create_face(instructions, vertices))
+                faces_instructions.append(_create_face(instructions))
             elif instructions[0] == "vn":
                 if (float(instructions[1]) == 0.0):
                     is_zero_vn = True
@@ -26,11 +26,18 @@ def read_obj(file, verbose, order):
                     is_zero_vn = False
             else:
                 pass
+
+    faces = list()
+    for face_recipe in faces_instructions:
+        faces.append(Face(vertices[(face_recipe[0])],
+                    vertices[(face_recipe[1])], vertices[face_recipe[2]]))
+
+    mesh = Mesh(numpy.asarray(vertices), numpy.asarray(faces))
     if verbose is True:
-        print("Vertices: " + str(len(vertices)) + ", Faces: " + str(len(faces)))
+        print("Vertices: " + str(mesh.vertices.size) + ", Faces: " + str(mesh.faces.size))
     #vertices_array = numpy.asarray(vertices)
     #faces_array = numpy.asarray(faces)
-    return Mesh(vertices, faces)
+    return mesh
 
 
 def _create_vertex(instructions, order):
@@ -38,15 +45,13 @@ def _create_vertex(instructions, order):
                             float(instructions[2]),
                             float(instructions[3]))
 
-def _create_face(instructions, vertices):
-    """Create a face using the instructions."""
-    v1 = instructions[1]
-    v2 = instructions[2]
-    v3 = instructions[3]
-    face = Face(vertices[int(v1[0]) - 1],
-                vertices[int(v2[0]) - 1], vertices[int(v3[0]) - 1])
-    pdb.set_trace()
-    return face
+def _create_face(instructions):
+    """Create a face using the instructions (removes 1 for the index)"""
+    #pdb.set_trace()
+    return (int(instructions[1][0])-1,int(instructions[2][0])-1,int(instructions[3][0])-1)
+
+    # #pdb.set_trace()
+    # return face
 
 def write_csv(args, quadrats, areas):
     # Strip extensions off filenames

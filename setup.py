@@ -15,7 +15,7 @@ setup(
     author='Steve Hawes',
     url="https://github.com/shawes/mesh3d-python",
     author_email="maxhawes@gmail.com",
-    install_requires=['pytest'],
+    install_requires=['pytest','numpy'],
     scripts=[],
     name='Mesh3D',
     version="0.1",
