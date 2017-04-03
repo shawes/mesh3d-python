@@ -15,14 +15,15 @@ class Mesh(object):
 
     def calculate_metrics(self, quadrats):
         self.quadrats = quadrats
-        for face in self.faces.tolist():
+        for face_array in numpy.nditer(self.faces, flags=['refs_ok']):
+            face = face_array.item(0)
+            #pdb.set_trace()
             for quadrat in self.quadrats:
-                if quadrat.contains(face.centroid) is True:
+                if quadrat.contains(face.centroid):
                     quadrat.metric.area3d += face.area3d
                     quadrat.metric.area2d += face.area2d
                     quadrat.metric.face_count += 1
                     quadrat.vertices_inside += face.vertices
-                    break
                 else:
                     pass
 

@@ -25,8 +25,6 @@ class Quadrat(Quadrilateral):
         else:
             return False
 
-
-
     def _within(self, vertex):
         inside_x = vertex.x > self.vertex_1.x and vertex.x < self.vertex_2.x
         inside_y = vertex.y > self.vertex_1.y and vertex.y < self.vertex_4.y
@@ -47,4 +45,4 @@ class Quadrat(Quadrilateral):
         return self.midpoint == other.midpoint and self.id == other.id
 
     def __hash__(self):
-        return hash(self.id[0]) + hash(self.id[1]) + hash(self.size) + hash(self.midpoint)
+        return hash(self.id)
