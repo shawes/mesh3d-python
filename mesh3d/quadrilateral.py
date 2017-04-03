@@ -1,6 +1,7 @@
 import math
 from edge import Edge
 from vertex import Vertex
+import sys
 
 
 class Quadrilateral(object):
@@ -13,9 +14,7 @@ class Quadrilateral(object):
         self.vertices = [vertex_1, vertex_2, vertex_3, vertex_4]
         self.edges = [Edge(vertex_1, vertex_2), Edge(vertex_2, vertex_3),
                       Edge(vertex_3, vertex_4), Edge(vertex_4, vertex_1)]
-
-    def centroid(self):
-        return Edge(Edge(self.vertex_1, self.vertex_3).midpoint,
+        self.centroid = Edge(Edge(self.vertex_1, self.vertex_3).midpoint,
                     Edge(self.vertex_2, self.vertex_4).midpoint).midpoint
 
     def contains(self, vertex):
@@ -32,7 +31,7 @@ class Quadrilateral(object):
         Takes a point p=Pt() and an edge of two endpoints a,b=Pt()
         of a Edge segment returns boolean.
         '''
-        _epsilon = 0.00001
+        _epsilon = 0.00000001
 
         if edge.start.y > edge.end.y:
             return self._ray_intersect_segment(vertex, Edge(edge.end, edge.start))
@@ -45,14 +44,14 @@ class Quadrilateral(object):
         else:
             left = sys.maxsize
             right = sys.maxsize
-            if abs(edge.start.x - vertex.x) > sys.minsize:
+            if abs(edge.start.x - vertex.x) > sys.maxsize*-1:
                 left = (vertex.y - edge.start.y) / (vertex.x - edge.start.x)
-            if abs(edge.start.x - edge.end.x) > sys.minsize:
+            if abs(edge.start.x - edge.end.x) > sys.maxsize*-1:
                 right = (edge.end.y - edge.start.y) / (edge.end.x - edge.start.x)
                 return left >= right
 
     def __in_bounding_box(self, vertex):
-        return (vertex.x > self.vertex_1.x and vertex.x < self.vertex_4.x) and (vertex.y > vertex_3.y and vertex.y < vertex_2.y)
+        return (vertex.x > self.vertex_1.x and vertex.x < self.vertex_2.x) and (vertex.y > vertex_1.y and vertex.y < vertex_4.y)
 
     def __str__(self):
         return "v1: " + str(self.vertex_1) + ", v2: " + str(self.vertex_2) + ", v3: " + str(self.vertex_3) + ", v4" + str(self.vertex_4)

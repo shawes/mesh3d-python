@@ -14,8 +14,8 @@ class QuadratBuilder(object):
             @param size the size of the square quadrilateral (in the units of the provided mesh)
             @return list of the quadrats that fit the bounding box
         """
-        centroid = box.centroid()
-        print("This is the centroid of the bounding box: " + str(box.centroid()))
+        centroid = box.centroid
+        print("This is the centroid of the bounding box: " + str(box.centroid))
         edge1_midpoint = Edge(box.vertex_1, box.vertex_2).midpoint
         distance_to_edge1 = centroid.distance_to_xyz(edge1_midpoint)
         quadrat_indexes1 = range(int(distance_to_edge1 / size) + 1)
@@ -34,7 +34,6 @@ class QuadratBuilder(object):
                 if index_i == 0 and index_j == 0:
                     quadrats.append(Quadrat((0, 0), size, centroid))
                 else:
-                    #print("Got here")
                     four_quadrats = [Quadrat((index_i, index_j), size,
                                                  Vertex(centroid.x + index_i * size, centroid.y + (index_j * size), centroid.z)),
                                          Quadrat((index_i, index_j * -1), size,
@@ -43,7 +42,6 @@ class QuadratBuilder(object):
                                                  Vertex(centroid.x - index_i * size, centroid.y + (index_j * size), centroid.z)),
                                          Quadrat((index_i * -1, index_j * -1), size,
                                                  Vertex(centroid.x - index_i * size, centroid.y - (index_j * size), centroid.z))]
-                    #pdb.set_trace()
                     quadrats_inside = list(filter(lambda x: box.contains(x.midpoint), four_quadrats))
                     quadrats += quadrats_inside
         # print("There are this many quadrats: " + str(len(quadrats)))

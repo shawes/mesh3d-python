@@ -3,13 +3,13 @@ import itertools
 from mesh import Mesh
 from face import Face
 import numpy
-import metrics
+import metric
 import pdb
 
 
 def read_obj(file, verbose, order):
     vertices = []
-    faces_instructions = []
+    faces = []
     is_zero_vn = False
     for line in file:
         instructions = line.rstrip().split()
@@ -18,7 +18,7 @@ def read_obj(file, verbose, order):
                 vertices.append(_create_vertex(instructions, order))
             elif instructions[0] == "f":
                 #pdb.set_trace()
-                faces_instructions.append(_create_face(instructions))
+                faces.append(_create_face(instructions, vertices))
             elif instructions[0] == "vn":
                 if (float(instructions[1]) == 0.0):
                     is_zero_vn = True
@@ -27,10 +27,10 @@ def read_obj(file, verbose, order):
             else:
                 pass
 
-    faces = list()
-    for face_recipe in faces_instructions:
-        faces.append(Face(vertices[(face_recipe[0])],
-                    vertices[(face_recipe[1])], vertices[face_recipe[2]]))
+    # faces = list()
+    # for face_recipe in faces_instructions:
+    #     faces.append(Face(vertices[(face_recipe[0])],
+    #                 vertices[(face_recipe[1])], vertices[face_recipe[2]]))
 
     mesh = Mesh(numpy.asarray(vertices), numpy.asarray(faces))
     if verbose is True:
@@ -41,24 +41,32 @@ def read_obj(file, verbose, order):
 
 
 def _create_vertex(instructions, order):
-    return order.get_vertex(float(instructions[1]),
+    vertex = order.get_vertex(float(instructions[1]),
                             float(instructions[2]),
                             float(instructions[3]))
+    #print(str(vertex))
+    return vertex
 
-def _create_face(instructions):
+def _create_face(instructions, vertices):
     """Create a face using the instructions (removes 1 for the index)"""
-    #pdb.set_trace()
-    return (int(instructions[1][0])-1,int(instructions[2][0])-1,int(instructions[3][0])-1)
+    #print(instructions)
+    vertex1_index = instructions[1].split("//")[0]
+    vertex2_index = instructions[2].split("//")[0]
+    vertex3_index = instructions[3].split("//")[0]
+    face_recipe = (int(vertex1_index),int(vertex2_index),int(vertex3_index))
+    face = Face(vertices[face_recipe[0]-1],vertices[face_recipe[1]-1], vertices[face_recipe[2]-1])
+    #print(str(face_index))
+    return face
 
     # #pdb.set_trace()
     # return face
 
-def write_csv(args, quadrats, areas):
+def write_csv(args, meshes):
     # Strip extensions off filenames
     csv_file = args.out
     files = args.meshes
     quadrat_size = args.size
-    names = list(map(lambda x: x.name.split('.')[0], files))
+    mesh_names = list(map(lambda x: x.name.split('.')[0], files))
 
     # write csv headers
     csv_file.write("mesh_name," +
@@ -76,19 +84,14 @@ def write_csv(args, quadrats, areas):
                    "2d_surface_area," +
                    "surface_rugosity\n")
 
-    area_index = 0
-    for name in names:
-        # print(name)
-        for quadrat in quadrats:
-            area_info = areas[area_index]
-            pdb.set_trace()
-            area3d = area_info[0]
-            area2d = area_info[1]
-            faces = area_info[2]
-            vertices = area_info[3]
-            rugosity = metrics.rugosity(area3d,area2d)
-            if area3d > 0 and area2d > 0:
-                csv_file.write(name)
+    # Filter out the quadrats with no faces
+    #quadrats = filter(lambda x: x.metric.face_count > 0, metrics)
+    #pdb.set_trace()
+    mesh_index = 0
+    for mesh in meshes:
+        for quadrat in mesh.quadrats:
+            if quadrat.metric.area3d > 0 and quadrat.metric.area2d > 0:
+                csv_file.write(mesh_names[mesh_index].split("/")[-1])
                 csv_file.write(",")
                 csv_file.write(str(args.size))
                 csv_file.write(",")
@@ -96,9 +99,9 @@ def write_csv(args, quadrats, areas):
                 csv_file.write(",")
                 csv_file.write(str(quadrat.id[1]))
                 csv_file.write(",")
-                csv_file.write(str(quadrat.relative_z_mean))
+                csv_file.write(str(quadrat.metric.relative_z_mean))
                 csv_file.write(",")
-                csv_file.write(str(quadrat.relative_z_sd))
+                csv_file.write(str(quadrat.metric.relative_z_sd))
                 csv_file.write(",")
                 csv_file.write(str(quadrat.midpoint.x))
                 csv_file.write(",")
@@ -106,16 +109,15 @@ def write_csv(args, quadrats, areas):
                 csv_file.write(",")
                 csv_file.write(str(quadrat.midpoint.z))
                 csv_file.write(",")
-                csv_file.write(str(faces))
+                csv_file.write(str(quadrat.metric.face_count))
                 csv_file.write(",")
-                csv_file.write(str(vertices))
+                csv_file.write(str(len(set(quadrat.vertices_inside))))
                 csv_file.write(",")
-                csv_file.write(str(area3d))
+                csv_file.write(str(quadrat.metric.area3d))
                 csv_file.write(",")
-                csv_file.write(str(area2d))
+                csv_file.write(str(quadrat.metric.area2d))
                 csv_file.write(",")
-                csv_file.write(str(rugosity))
+                csv_file.write(str(quadrat.metric.rugosity()))
                 csv_file.write("\n")
-            area_index += 1
-            #size_index += 1
+        mesh_index += 1
     csv_file.close()

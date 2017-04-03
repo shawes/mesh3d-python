@@ -43,4 +43,4 @@ class Vertex(object):
 
     def __hash__(self):
         """Hash code for vertex."""
-        return hash(self.x * self.y * self.z)
+        return hash(self.x) + hash(self.y) + hash(self.z)

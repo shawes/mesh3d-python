@@ -10,26 +10,33 @@ class Mesh(object):
     def __init__(self, vertices, faces):
         self.vertices = vertices
         self.faces = faces
+        self.quadrats = list()
         #self.extremes = self._calculate_extremes()
 
-    def get_area(self, quadrats):
-        area = []
-        for quadrat in quadrats:
-            area.append(self._get_area_of_face_in_quadrat(quadrat))
-        return area
+    def calculate_metrics(self, quadrats):
+        self.quadrats = quadrats
+        for face in self.faces.tolist():
+            for quadrat in self.quadrats:
+                if quadrat.contains(face.centroid) is True:
+                    quadrat.metric.area3d += face.area3d
+                    quadrat.metric.area2d += face.area2d
+                    quadrat.metric.face_count += 1
+                    quadrat.vertices_inside += face.vertices
+                    break
+                else:
+                    pass
 
-    def _get_area_of_face_in_quadrat(self, quadrat):
-        counters = [0,0,0]  # (3D area, 2D area, faces count)
-        quadrat_vertices = []
-        #pdb.set_trace()
-        for face in self.faces.flat:
-            if quadrat.contains(face.centroid):
-                counters[0] += face.area_3d()
-                counters[1] += face.area_2d()
-                counters[2] += 1
-                quadrat_vertices += face.vertices
-            else:
-                pass
+        for quadrat in self.quadrats:
+            quadrat.vertices_inside = list(set(quadrat.vertices_inside)) # get unique vertices
+            z_values = list(map(helpers.get_z_value, quadrat.vertices_inside))
+            if len(z_values) > 0:
+                quadrat.metric.relative_z_mean = numpy.mean(z_values)
+                quadrat.metric.relative_z_sd = numpy.std(z_values)
+        #return quadrats
+
+
+    #def _get_metrics_for_quadrat(self, quadrat):
+
 
         # z_values = list(map(lambda v: v.z, self.vertices))
         # if len(z_values) > 0:
@@ -38,7 +45,6 @@ class Mesh(object):
 
         #print("area is " + str(area3d))
         #print("faces count is " + str(faces_count))
-        return (counters[0], counters[1], counters[2], len(set(quadrat_vertices)))
 
     # def _calculate_extremes(self):
     #     pdb.set_trace()
