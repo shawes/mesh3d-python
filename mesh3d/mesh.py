@@ -24,16 +24,12 @@ class Mesh(object):
             for face_array in numpy.nditer(self.faces, flags=['refs_ok']):
                 face = face_array.item(0)
                 #pdb.set_trace()
-                if quadrat.contains(face.centroid) and not face.inside_quadrat:
+                if quadrat.contains(face.centroid):
                     metric.area3d += face.area3d
                     metric.area2d += face.area2d
                     metric.face_count += 1
                     quadrat.vertices_inside += face.vertices
                     metric.faces.append(face.id)
-                    #print("Just added face ID: " + str(face.id) + " to quadrat "+str(quadrat.id))
-                    face.inside_quadrat = True
-
-                    #pdb.set_trace()
                 else:
                     pass
             metrics.append(metric)

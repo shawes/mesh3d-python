@@ -3,8 +3,8 @@
 class Metric(object):
 
     def __init__(self):
-        self.quadrant_id = []
-        self.quadrant_midpoint = None
+        self.quadrat_id = []
+        self.quadrat_midpoint = None
         self.area3d = 0
         self.area2d = 0
         self.face_count = 0

@@ -93,7 +93,7 @@ def write_csv(args, meshes):
     #pdb.set_trace()
     for index, mesh in enumerate(meshes):
         for metric in mesh:
-            #if metric.area3d > 0 and metric.area2d > 0:
+            if metric.area3d > 0 and metric.area2d > 0:
                 csv_file.write(mesh_names[index].split("/")[-1])
                 csv_file.write(",")
                 csv_file.write(str(args.size))

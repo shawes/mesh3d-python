@@ -12,10 +12,10 @@ class Quadrat(Quadrilateral):
         ##self.metric = Metric()
         self.vertices_inside = list()
         Quadrilateral.__init__(self,
-            Vertex((midpoint.x - size) / 2, (midpoint.y - size) / 2, midpoint.z),
-            Vertex((midpoint.x + size) / 2, (midpoint.y - size) / 2, midpoint.z),
-            Vertex((midpoint.x + size) / 2, (midpoint.y + size) / 2, midpoint.z),
-            Vertex((midpoint.x - size) / 2, (midpoint.y + size) / 2, midpoint.z))
+            Vertex(midpoint.x - (size / 2), midpoint.y - (size / 2), midpoint.z),
+            Vertex(midpoint.x + (size / 2), midpoint.y - (size / 2), midpoint.z),
+            Vertex(midpoint.x + (size / 2), midpoint.y + (size / 2), midpoint.z),
+            Vertex(midpoint.x - (size / 2), midpoint.y + (size / 2), midpoint.z))
 
     def contains(self, vertex):
         if self._within(vertex) is True:
