@@ -7,14 +7,16 @@ from edge import Edge
 class Face(object):
     """Class representing a face."""
 
-    def __init__(self, vertex1, vertex2, vertex3):
+    def __init__(self, vertex1, vertex2, vertex3, id):
         """Constructor."""
-        self.vertices = [vertex1, vertex2, vertex3]
+        self.id = id
+        self.vertices = (vertex1, vertex2, vertex3)
         self.centroid = Vertex((vertex1.x + vertex2.x + vertex3.x) / 3,
                                (vertex1.y + vertex2.y + vertex3.y) / 3,
-                               0)
+                               (vertex1.z + vertex2.z + vertex3.x) / 3)
         self.area3d = self._area_3d()
         self.area2d = self._area_2d()
+        self.inside_quadrat = False
         # print("3d: " + str(self.area3d) + ", 2d: " + str(self.area2d))
         # if self.area3d == 0:
         #     print("v1: " + str(vertex1))

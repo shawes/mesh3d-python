@@ -45,4 +45,4 @@ class QuadratBuilder(object):
                     quadrats_inside = list(filter(lambda x: box.contains(x.midpoint), four_quadrats))
                     quadrats += quadrats_inside
         # print("There are this many quadrats: " + str(len(quadrats)))
-        return list(set(quadrats))
+        return tuple(set(quadrats))

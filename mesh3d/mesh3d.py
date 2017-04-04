@@ -68,12 +68,13 @@ def calculate_metrics_of_quadrats(args, meshes, quadrats):
     if args.verbose:
         print("Calculating the area...")
 
+    metrics = []
     for mesh in meshes:
-        mesh.calculate_metrics(quadrats)
+        metrics.append(mesh.calculate_metrics(quadrats))
 
     if args.verbose:
         print("Finished calculating the area.")
-    return meshes
+    return metrics
 
 
 def write_output(args, metrics):

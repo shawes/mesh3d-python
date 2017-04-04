@@ -1,5 +1,6 @@
 from vertex import Vertex
 from face import Face
+from metric import Metric
 import helpers
 import numpy
 import pdb
@@ -10,30 +11,44 @@ class Mesh(object):
     def __init__(self, vertices, faces):
         self.vertices = vertices
         self.faces = faces
-        self.quadrats = list()
         #self.extremes = self._calculate_extremes()
 
     def calculate_metrics(self, quadrats):
-        self.quadrats = quadrats
-        for face_array in numpy.nditer(self.faces, flags=['refs_ok']):
-            face = face_array.item(0)
-            #pdb.set_trace()
-            for quadrat in self.quadrats:
-                if quadrat.contains(face.centroid):
-                    quadrat.metric.area3d += face.area3d
-                    quadrat.metric.area2d += face.area2d
-                    quadrat.metric.face_count += 1
+        faces_ids = list()
+        metrics = list()
+        #print("faces length now: " + str(len(self.faces)))
+        for quadrat in quadrats:
+            metric = Metric()
+            metric.quadrat_id = quadrat.id
+            metric.quadrat_midpoint = quadrat.midpoint
+            for face_array in numpy.nditer(self.faces, flags=['refs_ok']):
+                face = face_array.item(0)
+                #pdb.set_trace()
+                if quadrat.contains(face.centroid) and not face.inside_quadrat:
+                    metric.area3d += face.area3d
+                    metric.area2d += face.area2d
+                    metric.face_count += 1
                     quadrat.vertices_inside += face.vertices
+                    metric.faces.append(face.id)
+                    #print("Just added face ID: " + str(face.id) + " to quadrat "+str(quadrat.id))
+                    face.inside_quadrat = True
+
+                    #pdb.set_trace()
                 else:
                     pass
+            metrics.append(metric)
 
-        for quadrat in self.quadrats:
-            quadrat.vertices_inside = list(set(quadrat.vertices_inside)) # get unique vertices
-            z_values = list(map(helpers.get_z_value, quadrat.vertices_inside))
-            if len(z_values) > 0:
-                quadrat.metric.relative_z_mean = numpy.mean(z_values)
-                quadrat.metric.relative_z_sd = numpy.std(z_values)
-        #return quadrats
+        for quadrat in quadrats:
+            for metric in metrics:
+                if quadrat.id == metric.quadrat_id:
+                    quadrat.vertices_inside = list(set(quadrat.vertices_inside)) # get unique vertices
+                    metric.vertices_count = len(quadrat.vertices_inside)
+                    z_values = list(map(helpers.get_z_value, quadrat.vertices_inside))
+                    if len(z_values) > 0:
+                        metric.relative_z_mean = numpy.mean(z_values)
+                        metric.relative_z_sd = numpy.std(z_values)
+        #print("metrics count = " +str(len(metrics)))
+        return metrics
 
 
     #def _get_metrics_for_quadrat(self, quadrat):

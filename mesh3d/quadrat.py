@@ -9,7 +9,7 @@ class Quadrat(Quadrilateral):
         self.id = id
         self.size = size
         self.midpoint = midpoint
-        self.metric = Metric()
+        ##self.metric = Metric()
         self.vertices_inside = list()
         Quadrilateral.__init__(self,
             Vertex((midpoint.x - size) / 2, (midpoint.y - size) / 2, midpoint.z),
