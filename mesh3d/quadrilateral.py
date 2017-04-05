@@ -4,7 +4,6 @@ import sys
 import helpers
 
 
-
 class Quadrilateral(object):
 
     def __init__(self, vertex_1, vertex_2, vertex_3, vertex_4):

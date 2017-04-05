@@ -30,9 +30,8 @@ class Face(object):
 
     def _get_area(self, edge1, edge2, edge3):
         semiperimeter = (edge1 + edge2 + edge3) * 0.5
-        #print("sp: "+ str(semiperimeter))
-        result = math.sqrt(semiperimeter * (semiperimeter - edge1) * (semiperimeter - edge2) * (semiperimeter - edge3))
+        result = math.sqrt(semiperimeter *
+                           (semiperimeter - edge1) *
+                           (semiperimeter - edge2) *
+                           (semiperimeter - edge3))
         return result
-
-    def __str__(self):
-        print("centroid is " + str(self.centroid))
