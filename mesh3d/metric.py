@@ -14,6 +14,7 @@ class Metric(object):
         self.relative_z_sd = 0
 
     def rugosity(self):
+        """Returns the rugosity of the area"""
         if self.area2d < 0:
             return math.nan
         return self.area3d / self.area2d

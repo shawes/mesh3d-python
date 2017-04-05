@@ -55,8 +55,8 @@ def fit_quadrats_to_meshes(args, bounding_box):
     if args.verbose:
         print("Generating the quadrats inside the bounding box...")
 
-    quadrat_builder = QuadratBuilder()
-    quadrats = quadrat_builder.build(bounding_box, args.size)
+    #quadrat_builder = QuadratBuilder()
+    quadrats = QuadratBuilder().build(bounding_box, args.size)
 
     if args.verbose:
         print("Finished generating all the quadrats.")

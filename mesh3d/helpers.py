@@ -1,4 +1,5 @@
 import math
+from vertex import Vertex
 
 def is_min(x, y):
     return True if x < y else False
@@ -19,3 +20,6 @@ def sd(values, sample):
     sum_of_squares = sum(square_differences)
     variance = sum_of_squares / (len(values) - 1) if sample is True else sum_of_squares / len(values)
     return math.sqrt(variance)
+
+def get_midpoint_of_edge(start, end):
+    return Vertex((start.x + end.x) / 2, (start.y + end.y) / 2, (start.z + end.z) / 2)

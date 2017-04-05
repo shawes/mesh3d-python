@@ -1,6 +1,7 @@
 import math
 from vertex import Vertex
 import sys
+import helpers
 
 
 
@@ -12,6 +13,9 @@ class Quadrilateral(object):
                          [vertex_2.x, vertex_2.y],
                          [vertex_3.x, vertex_3.y],
                          [vertex_4.x, vertex_4.y]])
+        self.centroid = helpers.get_midpoint_of_edge(
+                            helpers.get_midpoint_of_edge(vertex_1, vertex_3),
+                            helpers.get_midpoint_of_edge(vertex_2, vertex_4))
 
     def contains(self, vertex):
         if self._within(vertex) is True:
