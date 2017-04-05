@@ -21,7 +21,6 @@ def read_in_meshes(args):
         print("Finished reading in the mesh files.")
     return meshes
 
-
 def calculate_bounding_box(args, meshes):
     if args.verbose:
         print("Calculating the bounding box...")
@@ -32,15 +31,16 @@ def calculate_bounding_box(args, meshes):
     min_y = sys.maxsize
 
     for mesh in meshes:
-        for vertex in mesh.vertices:
-            if vertex.x < min_x:
-                min_x = vertex.x
-            if vertex.x > max_x:
-                max_x = vertex.x
-            if vertex.y < min_y:
-                min_y = vertex.y
-            if vertex.y > max_y:
-                max_y = vertex.y
+        for face in mesh.faces:
+            for vertex in face.vertices:
+                if vertex.x < min_x:
+                    min_x = vertex.x
+                if vertex.x > max_x:
+                    max_x = vertex.x
+                if vertex.y < min_y:
+                    min_y = vertex.y
+                if vertex.y > max_y:
+                    max_y = vertex.y
 
     bounding_box = Quadrilateral(Vertex(min_x, min_y, 0), Vertex(max_x, min_y, 0),
                                  Vertex(max_x, max_y, 0), Vertex(min_x, max_y, 0))
@@ -68,9 +68,7 @@ def calculate_metrics_of_quadrats(args, meshes, quadrats):
     if args.verbose:
         print("Calculating the area...")
 
-    metrics = []
-    for mesh in meshes:
-        metrics.append(mesh.calculate_metrics(quadrats))
+    metrics = map(lambda x: x.calculate_metrics(quadrats), meshes)
 
     if args.verbose:
         print("Finished calculating the area.")
@@ -119,6 +117,5 @@ def main():
     quadrats = fit_quadrats_to_meshes(args, bounding_box)
     evaluated_meshes = calculate_metrics_of_quadrats(args, meshes, quadrats)
     write_output(args, evaluated_meshes)
-
 
 main()

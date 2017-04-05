@@ -1,57 +1,35 @@
 import math
-from edge import Edge
 from vertex import Vertex
 import sys
+
 
 
 class Quadrilateral(object):
 
     def __init__(self, vertex_1, vertex_2, vertex_3, vertex_4):
-        self.vertex_1 = vertex_1
-        self.vertex_2 = vertex_2
-        self.vertex_3 = vertex_3
-        self.vertex_4 = vertex_4
-        self.vertices = [vertex_1, vertex_2, vertex_3, vertex_4]
-        self.edges = [Edge(vertex_1, vertex_2), Edge(vertex_2, vertex_3),
-                      Edge(vertex_3, vertex_4), Edge(vertex_4, vertex_1)]
-        self.centroid = Edge(Edge(self.vertex_1, self.vertex_3).midpoint,
-                    Edge(self.vertex_2, self.vertex_4).midpoint).midpoint
+        self.vertices = (vertex_1, vertex_2, vertex_3, vertex_4)
+        self.vertices_array = ([[vertex_1.x, vertex_1.y],
+                         [vertex_2.x, vertex_2.y],
+                         [vertex_3.x, vertex_3.y],
+                         [vertex_4.x, vertex_4.y]])
 
     def contains(self, vertex):
-        return self._ray_casting(vertex)
-
-    def _ray_casting(self, vertex):
-        return self._is_odd(sum(self._ray_intersect_segment(vertex, edge) for edge in self.edges))
-
-    def _is_odd(self, number):
-        return number % 2 != 0
-
-    def _ray_intersect_segment(self, vertex, edge):
-        '''
-        Takes a point p=Pt() and an edge of two endpoints a,b=Pt()
-        of a Edge segment returns boolean.
-        '''
-        _epsilon = 0.00000001
-
-        if edge.start.y > edge.end.y:
-            return self._ray_intersect_segment(vertex, Edge(edge.end, edge.start))
-        elif vertex.y == edge.start.y or vertex.y == edge.end.y:
-            return self._ray_intersect_segment(Vertex(vertex.x, vertex.y + _epsilon, 0), edge)
-        elif vertex.y > edge.end.y or vertex.y < edge.start.y or vertex.x > max(edge.start.x, edge.end.x):
-            return False
-        elif vertex.x < min(edge.start.x, edge.end.x):
+        if self._within(vertex) is True:
+            return True
+        elif self._bump(vertex) is True:
             return True
         else:
-            left = sys.maxsize
-            right = sys.maxsize
-            if abs(edge.start.x - vertex.x) > sys.maxsize*-1:
-                left = (vertex.y - edge.start.y) / (vertex.x - edge.start.x)
-            if abs(edge.start.x - edge.end.x) > sys.maxsize*-1:
-                right = (edge.end.y - edge.start.y) / (edge.end.x - edge.start.x)
-                return left >= right
+            return False
 
-    def __in_bounding_box(self, vertex):
-        return (vertex.x > self.vertex_1.x and vertex.x < self.vertex_2.x) and (vertex.y > vertex_1.y and vertex.y < vertex_4.y)
+    def _within(self, vertex):
+        inside_x = vertex.x > self.vertices[0].x and vertex.x < self.vertices[1].x
+        inside_y = vertex.y > self.vertices[0].y and vertex.y < self.vertices[3].y
+        inside = inside_x and inside_y
+        return inside
 
-    def __str__(self):
-        return "v1: " + str(self.vertex_1) + ", v2: " + str(self.vertex_2) + ", v3: " + str(self.vertex_3) + ", v4" + str(self.vertex_4)
+    def _bump(self, vertex):
+        _bump_amount = 0.00001
+        vertex_bumped = Vertex(vertex.x + _bump_amount,
+                               vertex.y + _bump_amount,
+                               0)
+        return self._within(vertex)

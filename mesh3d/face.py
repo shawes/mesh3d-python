@@ -1,6 +1,5 @@
 import math
 from vertex import Vertex
-from edge import Edge
 # import pdb
 
 
@@ -16,21 +15,6 @@ class Face(object):
                                (vertex1.z + vertex2.z + vertex3.z) / 3)
         self.area3d = self._area_3d()
         self.area2d = self._area_2d()
-        #self.inside_quadrat = False
-        # print("3d: " + str(self.area3d) + ", 2d: " + str(self.area2d))
-        # if self.area3d == 0:
-        #     print("v1: " + str(vertex1))
-        #     print("v2: " + str(vertex2))
-        #     print("v3: " + str(vertex3))
-
-        # self.edges = [Edge(vertex1, vertex2), Edge(
-        #     vertex2, vertex3), Edge(vertex3, vertex1)]
-        # self.edges_xy = [Edge(vertex1.make_xy(), vertex2.make_xy()), Edge(vertex2.make_xy(), vertex3.make_xy()),
-        #                   Edge(vertex3.make_xy(), vertex1.make_xy())]
-        # self.area3d = self._calc_area3d(vertices[0], vertices[1], vertices[2])
-        # self.area2d = self._calc_area2d(vertices[0], vertices[1],
-        # vertices[2])
-
 
     def _area_3d(self):
         edge1 = self.vertices[0].distance_to_xyz(self.vertices[1])

@@ -2,7 +2,7 @@ import os.path
 import itertools
 from mesh import Mesh
 from face import Face
-import numpy
+#import numpy
 import metric
 import pdb
 
@@ -34,9 +34,11 @@ def read_obj(file, verbose, order):
     #     faces.append(Face(vertices[(face_recipe[0])],
     #                 vertices[(face_recipe[1])], vertices[face_recipe[2]]))
 
-    mesh = Mesh(numpy.asarray(vertices), numpy.asarray(faces))
+    mesh = Mesh(faces)
     if verbose is True:
-        print("Vertices: " + str(mesh.vertices.size) + ", Faces: " + str(mesh.faces.size))
+        print("Vertices: " + str(len(vertices)) + ", Faces: " + str(len(faces)))
+
+
     #vertices_array = numpy.asarray(vertices)
     #faces_array = numpy.asarray(faces)
     return mesh
@@ -88,9 +90,6 @@ def write_csv(args, meshes):
                    "surface_rugosity," +
                    "faces\n")
 
-    # Filter out the quadrats with no faces
-    #quadrats = filter(lambda x: x.metric.face_count > 0, metrics)
-    #pdb.set_trace()
     for index, mesh in enumerate(meshes):
         for metric in mesh:
             if metric.area3d > 0 and metric.area2d > 0:
@@ -121,7 +120,5 @@ def write_csv(args, meshes):
                 csv_file.write(str(metric.area2d))
                 csv_file.write(",")
                 csv_file.write(str(metric.rugosity()))
-                csv_file.write(",")
-                csv_file.write(str(metric.faces).strip('[]'))
                 csv_file.write("\n")
     csv_file.close()
