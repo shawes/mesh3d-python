@@ -1,6 +1,5 @@
-import math
 import pytest
-from .context import mesh3d
+import math
 
 
 class TestQuadrilateral:

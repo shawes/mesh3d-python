@@ -1,7 +1,7 @@
 import pytest
 import math
-from mesh3d.vertex import Vertex
 import pdb
+from mesh3d.vertex import Vertex
 
 
 class TestVertex:

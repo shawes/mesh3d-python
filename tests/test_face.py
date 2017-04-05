@@ -1,13 +1,13 @@
-import math
 import pytest
-from mesh3d.vertex import Vertex
+import math
 import pdb
+import mesh3d
 
 class TestFace:
 
 
     def test_face_contructor_not_none(self):
-        my_face = mesh3d.face.Face(mesh3d.Vertex(0, 0, 0), mesh3d.Vertex(1, 1, 0), mesh3d.Vertex(1, 3, 0))
+        my_face = mesh3d.face.Face(Vertex(0, 0, 0), Vertex(1, 1, 0), Vertex(1, 3, 0))
         assert my_face is not None
 
     def test_face_vertex1(self):

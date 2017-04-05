@@ -17,7 +17,6 @@ def read_obj(file, verbose, order):
             if instructions[0] == "v" and is_zero_vn is False:
                 vertices.append(_create_vertex(instructions, order))
             elif instructions[0] == "f":
-                #pdb.set_trace()
                 faces.append(_create_face(instructions, vertices, face_id))
                 face_id += 1
             elif instructions[0] == "vn":
@@ -55,7 +54,7 @@ def write_csv(args, meshes):
     quadrat_size = args.size
     mesh_names = list(map(lambda x: x.name.split('.')[0], files))
 
-    # write csv headers
+    # Write csv headers
     csv_file.write("mesh_name," +
                    "quadrat_size_m," +
                    "quadrat_rel_x," +

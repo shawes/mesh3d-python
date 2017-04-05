@@ -1,5 +1,4 @@
 import pytest
-from .context import mesh3d
 
 
 class TestMesh:
