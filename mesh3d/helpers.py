@@ -1,5 +1,5 @@
 import math
-from vertex import Vertex
+from .vertex import Vertex
 
 def is_min(x, y):
     return True if x < y else False

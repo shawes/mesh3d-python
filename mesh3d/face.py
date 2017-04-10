@@ -1,5 +1,5 @@
 import math
-from vertex import Vertex
+from .vertex import Vertex
 # import pdb
 
 

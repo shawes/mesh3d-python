@@ -2,7 +2,7 @@ init:
 	pip3 install -r requirements.txt
 
 test:
-	py.test -v
+	pytest -v
 
 run:
 	python3 mesh3d/mesh3d.py

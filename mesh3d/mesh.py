@@ -1,7 +1,7 @@
-from vertex import Vertex
-from face import Face
-from metric import Metric
-import helpers
+from .vertex import Vertex
+from .face import Face
+from .metric import Metric
+import .helpers
 import pdb
 
 class Mesh(object):

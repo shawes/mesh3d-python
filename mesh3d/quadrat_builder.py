@@ -1,6 +1,6 @@
-from vertex import Vertex
-from quadrat import Quadrat
-import helpers
+from .vertex import Vertex
+from .quadrat import Quadrat
+import .helpers
 
 
 class QuadratBuilder(object):

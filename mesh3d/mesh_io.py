@@ -1,8 +1,8 @@
 import os.path
 import itertools
-from mesh import Mesh
-from face import Face
-import metric
+from .mesh import Mesh
+from .face import Face
+import .metric
 import pdb
 
 

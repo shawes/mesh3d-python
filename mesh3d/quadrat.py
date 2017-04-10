@@ -1,6 +1,6 @@
 from quadrilateral import Quadrilateral
-from vertex import Vertex
-from metric import Metric
+from .vertex import Vertex
+from .metric import Metric
 
 
 class Quadrat(Quadrilateral):
