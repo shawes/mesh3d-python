@@ -25,13 +25,17 @@ class Quadrilateral(object):
             return False
 
     def _within(self, vertex):
-        inside_x = vertex.x > self.vertices[0].x and vertex.x < self.vertices[1].x
-        inside_y = vertex.y > self.vertices[0].y and vertex.y < self.vertices[3].y
-        inside = inside_x and inside_y
-        return inside
+    #     inside_x = vertex.x > self.vertices[0].x and vertex.x < self.vertices[1].x
+    #     inside_y = vertex.y > self.vertices[0].y and vertex.y < self.vertices[3].y
+    #     inside = inside_x and inside_y
+        xl = [v.x for v in self.vertices]
+        yl = [v.y for v in self.vertices]
+        if vertex.x < min(xl) or vertex.x > max(xl) or vertex.y < min(yl) or vertex.y > max(yl):
+            return self._bump(vertex)
+        return True
 
     def _bump(self, vertex):
-        _bump_amount = 0.00001
+        _epsilon = 0.00001
         vertex_bumped = Vertex(vertex.x + _bump_amount,
                                vertex.y + _bump_amount,
                                0)

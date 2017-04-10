@@ -6,9 +6,8 @@ from vertex import Vertex
 class Face(object):
     """Class representing a face."""
 
-    def __init__(self, vertex1, vertex2, vertex3, id):
+    def __init__(self, vertex1, vertex2, vertex3):
         """Constructor."""
-        self.id = id
         self.vertices = (vertex1, vertex2, vertex3)
         self.centroid = Vertex((vertex1.x + vertex2.x + vertex3.x) / 3,
                                (vertex1.y + vertex2.y + vertex3.y) / 3,
