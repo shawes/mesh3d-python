@@ -102,4 +102,3 @@ ENV/
 # Custom extras to ignore
 tests/input/
 tests/output/
-*.txt
