@@ -24,7 +24,7 @@ class TestMetric:
 
     def test_metric_rugosity(self):
         my_metric = Metric()
-        my_metric.area3d = 3
-        my_metric.area2d = 2
+        my_metric.area3d = 3.0
+        my_metric.area2d = 2.0
         my_rugosity = my_metric.rugosity()
         assert my_rugosity == 1.5
