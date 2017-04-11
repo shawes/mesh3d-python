@@ -8,10 +8,10 @@ class Quadrilateral(object):
 
     def __init__(self, vertex_1, vertex_2, vertex_3, vertex_4):
         self.vertices = (vertex_1, vertex_2, vertex_3, vertex_4)
-        self.vertices_array = ([[vertex_1.x, vertex_1.y],
-                         [vertex_2.x, vertex_2.y],
-                         [vertex_3.x, vertex_3.y],
-                         [vertex_4.x, vertex_4.y]])
+        # self.vertices_array = ([[vertex_1.x, vertex_1.y],
+        #                  [vertex_2.x, vertex_2.y],
+        #                  [vertex_3.x, vertex_3.y],
+        #                  [vertex_4.x, vertex_4.y]])
         self.centroid = get_midpoint_of_edge(
                             get_midpoint_of_edge(vertex_1, vertex_3),
                             get_midpoint_of_edge(vertex_2, vertex_4))
