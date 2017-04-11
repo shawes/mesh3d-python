@@ -31,12 +31,12 @@ class Quadrilateral(object):
         xl = [v.x for v in self.vertices]
         yl = [v.y for v in self.vertices]
         if vertex.x < min(xl) or vertex.x > max(xl) or vertex.y < min(yl) or vertex.y > max(yl):
-            return self._bump(vertex)
+            return False
         return True
 
     def _bump(self, vertex):
         _epsilon = 0.00001
-        vertex_bumped = Vertex(vertex.x + _bump_amount,
-                               vertex.y + _bump_amount,
+        vertex_bumped = Vertex(vertex.x + _epsilon,
+                               vertex.y + _epsilon,
                                0)
         return self._within(vertex)

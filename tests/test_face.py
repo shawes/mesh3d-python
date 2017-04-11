@@ -1,8 +1,8 @@
 import math
 import pdb
-from mesh3d.vertex import Vertex
-from mesh3d.face import Face
 import pytest
+from mesh3d.face import Face
+from mesh3d.vertex import Vertex
 
 class TestFace:
 

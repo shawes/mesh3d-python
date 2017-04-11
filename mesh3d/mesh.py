@@ -1,7 +1,7 @@
 from .vertex import Vertex
 from .face import Face
 from .metric import Metric
-import .helpers
+from .helpers import get_z_value, mean, sd
 import pdb
 
 class Mesh(object):
@@ -26,9 +26,9 @@ class Mesh(object):
                     pass
             quadrat_vertices = list(set(quadrat_vertices))
             metric.vertices_count = len(quadrat_vertices)
-            z_values = list(map(helpers.get_z_value, quadrat_vertices))
+            z_values = list(map(get_z_value, quadrat_vertices))
             if len(z_values) > 0:
-                metric.relative_z_mean = helpers.mean(z_values)
-                metric.relative_z_sd = helpers.sd(z_values, sample=False)
+                metric.relative_z_mean = mean(z_values)
+                metric.relative_z_sd = sd(z_values, sample=False)
             metrics.append(metric)
         return metrics

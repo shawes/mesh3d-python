@@ -1,6 +1,6 @@
 from .vertex import Vertex
 from .quadrat import Quadrat
-import .helpers
+from .helpers import get_midpoint_of_edge
 
 
 class QuadratBuilder(object):
@@ -14,12 +14,12 @@ class QuadratBuilder(object):
             @return list of the quadrats that fit the bounding box
         """
         centroid = box.centroid
-        edge1_midpoint = helpers.get_midpoint_of_edge(
+        edge1_midpoint = get_midpoint_of_edge(
             box.vertices[0], box.vertices[1])
         distance_to_edge1 = centroid.distance_to_xyz(edge1_midpoint)
         quadrat_indexes1 = range(int(distance_to_edge1 / size) + 1)
 
-        edge2_midpoint = helpers.get_midpoint_of_edge(
+        edge2_midpoint = get_midpoint_of_edge(
             box.vertices[0], box.vertices[3])
         distance_to_edge2 = centroid.distance_to_xyz(edge2_midpoint)
         quadrat_indexes2 = range(int(distance_to_edge2 / size) + 1)

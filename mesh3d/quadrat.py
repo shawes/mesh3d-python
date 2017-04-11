@@ -1,4 +1,4 @@
-from quadrilateral import Quadrilateral
+from .quadrilateral import Quadrilateral
 from .vertex import Vertex
 from .metric import Metric
 

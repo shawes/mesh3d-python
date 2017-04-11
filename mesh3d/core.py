@@ -1,27 +1,38 @@
 import argparse
-from dimension_order import DimensionOrder
-from quadrat_builder import QuadratBuilder
-from quadrilateral import Quadrilateral
-from vertex import Vertex
-import mesh_io
+from .dimension_order import DimensionOrder
+from .quadrat_builder import QuadratBuilder
+from .quadrilateral import Quadrilateral
+from .vertex import Vertex
+from .mesh_io import read_obj, write_csv
 import pdb
 import sys
 
 
-def read_in_meshes(args):
+def _read_in_meshes(args):
+    """
+    Reads in mesh file(s) in .obj format and stores them in a
+    corresponding mesh objects
+
+    Args:
+        args: List of command line arguments
+
+    Returns:
+        A list of mesh objects, essentially a collection of faces
+    """
+
     if args.verbose:
         print("Starting to read the mesh files...")
 
-    meshes = []
-    for mesh in args.meshes:
-        meshes.append(mesh_io.read_obj(
-            mesh, args.verbose, DimensionOrder(args.dim)))
+    meshes = map(lambda x: read_obj(x, args.verbose, DimensionOrder(args.dim)), args.meshes)
 
     if args.verbose:
         print("Finished reading in the mesh files.")
     return meshes
 
-def calculate_bounding_box(args, meshes):
+
+def _calculate_bounding_box(args, meshes):
+    """Calculates the bounding box from the extreme vertices in
+    each mesh"""
     if args.verbose:
         print("Calculating the bounding box...")
 
@@ -51,7 +62,7 @@ def calculate_bounding_box(args, meshes):
     return bounding_box
 
 
-def fit_quadrats_to_meshes(args, bounding_box):
+def _fit_quadrats_to_meshes(args, bounding_box):
     if args.verbose:
         print("Generating the quadrats inside the bounding box...")
 
@@ -64,7 +75,7 @@ def fit_quadrats_to_meshes(args, bounding_box):
     return quadrats
 
 
-def calculate_metrics_of_quadrats(args, meshes, quadrats):
+def _calculate_metrics_of_quadrats(args, meshes, quadrats):
     if args.verbose:
         print("Calculating the area...")
 
@@ -75,17 +86,17 @@ def calculate_metrics_of_quadrats(args, meshes, quadrats):
     return metrics
 
 
-def write_output(args, metrics):
+def _write_output(args, metrics):
     if args.verbose:
         print("Writing the output to a .csv file...")
 
-    mesh_io.write_csv(args, metrics)
+    write_csv(args, metrics)
 
     if args.verbose:
         print("Finished writing to " + args.out.name)
 
 
-def setup_command_line_parser():
+def _setup_command_line_parser():
     parser = argparse.ArgumentParser(
         description='Measures rugosity of 3D meshes.',
         prog='Mesh3D',
@@ -109,13 +120,16 @@ def setup_command_line_parser():
     return parser
 
 
-def main():
-    parser = setup_command_line_parser()
+def run():
+    parser = _setup_command_line_parser()
     args = parser.parse_args()
-    meshes = read_in_meshes(args)
-    bounding_box = calculate_bounding_box(args, meshes)
-    quadrats = fit_quadrats_to_meshes(args, bounding_box)
-    evaluated_meshes = calculate_metrics_of_quadrats(args, meshes, quadrats)
-    write_output(args, evaluated_meshes)
+    meshes = _read_in_meshes(args)
+    bounding_box = _calculate_bounding_box(args, meshes)
+    quadrats = _fit_quadrats_to_meshes(args, bounding_box)
+    evaluated_meshes = _calculate_metrics_of_quadrats(args, meshes, quadrats)
+    _write_output(args, evaluated_meshes)
 
-main()
+
+if __name__ == "__main__":
+    import sys
+    run()

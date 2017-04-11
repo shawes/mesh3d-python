@@ -2,7 +2,7 @@ import os.path
 import itertools
 from .mesh import Mesh
 from .face import Face
-import .metric
+from .metric import Metric
 import pdb
 
 
@@ -10,15 +10,13 @@ def read_obj(file, verbose, order):
     vertices = []
     faces = []
     is_zero_vn = False
-    face_id = 1
     for line in file:
         instructions = line.rstrip().split()
         if len(instructions) > 0:
             if instructions[0] == "v" and is_zero_vn is False:
                 vertices.append(_create_vertex(instructions, order))
             elif instructions[0] == "f":
-                faces.append(_create_face(instructions, vertices, face_id))
-                face_id += 1
+                faces.append(_create_face(instructions, vertices))
             elif instructions[0] == "vn":
                 if (float(instructions[1]) == 0.0):
                     is_zero_vn = True
@@ -38,13 +36,13 @@ def _create_vertex(instructions, order):
                             float(instructions[2]),
                             float(instructions[3]))
 
-def _create_face(instructions, vertices, id):
+def _create_face(instructions, vertices):
     """Create a face using the instructions (removes 1 for the index)"""
     vertex1_index = instructions[1].split("//")[0]
     vertex2_index = instructions[2].split("//")[0]
     vertex3_index = instructions[3].split("//")[0]
     face_recipe = (int(vertex1_index),int(vertex2_index),int(vertex3_index))
-    face = Face(vertices[face_recipe[0]-1],vertices[face_recipe[1]-1], vertices[face_recipe[2]-1],id)
+    face = Face(vertices[face_recipe[0]-1],vertices[face_recipe[1]-1], vertices[face_recipe[2]-1])
     return face
 
 def write_csv(args, meshes):

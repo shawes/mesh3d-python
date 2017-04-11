@@ -1,6 +1,7 @@
 import math
-from mesh3d.vertex import Vertex
+#from vertex import Vertex
 from mesh3d.quadrilateral import Quadrilateral
+from mesh3d.vertex import Vertex
 import pytest
 
 
