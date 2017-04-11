@@ -17,4 +17,4 @@ class Metric(object):
         """Returns the rugosity of the area"""
         if self.area2d == 0:
             return float('nan')
-        return self.area3d / self.area2d
+        return float(self.area3d) / float(self.area2d)
