@@ -20,7 +20,7 @@ class TestMetric:
     def test_metric_rugosity_zero_area_returns_nan(self):
         my_metric = Metric()
         my_rugosity = my_metric.rugosity()
-        assert my_rugosity is math.nan
+        assert math.isnan(my_rugosity)
 
     def test_metric_rugosity(self):
         my_metric = Metric()
