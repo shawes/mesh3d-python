@@ -70,7 +70,7 @@ def write_csv(args, meshes):
                    "3d_surface_area," +
                    "2d_surface_area," +
                    "surface_rugosity," +
-                   "faces\n")
+                   "\n")
 
     for index, mesh in enumerate(meshes):
         for metric in mesh:
