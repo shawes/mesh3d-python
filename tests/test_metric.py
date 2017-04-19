@@ -19,12 +19,12 @@ class TestMetric:
 
     def test_metric_rugosity_zero_area_returns_nan(self):
         my_metric = Metric()
-        my_rugosity = my_metric.rugosity()
+        my_rugosity = my_metric.surface_rugosity()
         assert math.isnan(my_rugosity)
 
     def test_metric_rugosity(self):
         my_metric = Metric()
         my_metric.area3d = 3.0
         my_metric.area2d = 2.0
-        my_rugosity = my_metric.rugosity()
+        my_rugosity = my_metric.surface_rugosity()
         assert my_rugosity == 1.5
