@@ -1,5 +1,6 @@
 from .vertex import Vertex
 
+
 class DimensionOrder(object):
     X = 0
     Y = 1

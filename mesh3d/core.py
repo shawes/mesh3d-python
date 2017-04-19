@@ -58,7 +58,6 @@ def _calculate_bounding_box(args, meshes):
 
     if args.verbose:
         print("Finished calculating the bounding box.")
-        print("Bounding box is " + str(bounding_box))
     return bounding_box
 
 
@@ -66,7 +65,6 @@ def _fit_quadrats_to_meshes(args, bounding_box):
     if args.verbose:
         print("Generating the quadrats inside the bounding box...")
 
-    #quadrat_builder = QuadratBuilder()
     quadrats = QuadratBuilder().build(bounding_box, args.size)
 
     if args.verbose:

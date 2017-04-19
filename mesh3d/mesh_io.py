@@ -31,19 +31,22 @@ def read_obj(file, verbose, order):
 
     return mesh
 
+
 def _create_vertex(instructions, order):
     return order.get_vertex(float(instructions[1]),
                             float(instructions[2]),
                             float(instructions[3]))
+
 
 def _create_face(instructions, vertices):
     """Create a face using the instructions (removes 1 for the index)"""
     vertex1_index = instructions[1].split("//")[0]
     vertex2_index = instructions[2].split("//")[0]
     vertex3_index = instructions[3].split("//")[0]
-    face_recipe = (int(vertex1_index),int(vertex2_index),int(vertex3_index))
-    face = Face(vertices[face_recipe[0]-1],vertices[face_recipe[1]-1], vertices[face_recipe[2]-1])
+    face_recipe = (int(vertex1_index), int(vertex2_index), int(vertex3_index))
+    face = Face(vertices[face_recipe[0] - 1], vertices[face_recipe[1] - 1], vertices[face_recipe[2] - 1])
     return face
+
 
 def write_csv(args, meshes):
     # Strip extensions off filenames
@@ -98,6 +101,6 @@ def write_csv(args, meshes):
                 csv_file.write(",")
                 csv_file.write(str(metric.area2d))
                 csv_file.write(",")
-                csv_file.write(str(metric.rugosity()))
+                csv_file.write(str(metric.surface_rugosity()))
                 csv_file.write("\n")
     csv_file.close()
