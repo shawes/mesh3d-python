@@ -18,7 +18,7 @@ class DimensionOrder(object):
         return self._get_value(self.order[2])
 
     def _get_value(self, c):
-        result = -1
+        result = None
         if c == 'X':
             result = self.X
         elif c == 'Y':
