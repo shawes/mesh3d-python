@@ -1,5 +1,4 @@
 appdirs==1.4.3
-Mesh3D==0.1
 packaging==16.8
 py==1.4.33
 pyparsing==2.2.0

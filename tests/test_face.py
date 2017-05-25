@@ -4,6 +4,7 @@ import pytest
 from mesh3d.face import Face
 from mesh3d.vertex import Vertex
 
+
 class TestFace:
 
     def test_face_contructor_not_none(self):

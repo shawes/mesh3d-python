@@ -36,7 +36,7 @@ setup(
     cmdclass = {'test': PyTest},
     scripts=[],
     name='Mesh3D',
-    version="0.1",
+    version="0.1.1",
     license=license,
     packages=find_packages(exclude=('tests', 'docs'))
 )
