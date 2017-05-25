@@ -39,25 +39,29 @@ class TestVertex:
         vertex2 = Vertex(1, 1, 1)
         assert vertex1 == vertex2
 
-    def test_vertex__not_eq(self):
+    def test_vertex_not_eq(self):
         vertex1 = Vertex(1, 1, 1)
         vertex2 = Vertex(1, 1, 2)
         assert not vertex1.__eq__(vertex2)
 
-    # def test_vertex_str(self):
-    #     vertex = Vertex(1, 1, 1)
-    #     v_correct = "x=" + str(vertex.x) + ", y=" + str(vertex.y) + ", z=" + str(vertex.z)
-    #     pdb.set_trace()
-    #     v_result = vertex.__str__()
-    #     assert v_result == v_correct
-    #
-    # def test_vertex_lt(self):
-    #     vertex1 = Vertex(1, 1, 1)
-    #     vertex2 = Vertex(2, 2, 2)
-    #     result = vertex1 > vertex2
-    #     assert result is True
-    #
-    # def test_vertex__not_lt(self):
-    #     vertex1 = Vertex(1, 1, 1)
-    #     vertex2 = Vertex(0, 0, 0)
-    #     assert vertex1 < vertex2
+    def test_vertex_str(self):
+        vertex = Vertex(1, 1, 1)
+        v_correct = "x=" + str(vertex.x) + ", y=" + str(vertex.y) + ", z=" + str(vertex.z)
+        v_result = vertex.__str__()
+        assert v_result == v_correct
+
+    def test_vertex_lt(self):
+        vertex1 = Vertex(1, 1, 1)
+        vertex2 = Vertex(2, 2, 2)
+        result = vertex1 < vertex2
+        assert result is True
+
+    def test_vertex_not_lt(self):
+        vertex1 = Vertex(1, 1, 1)
+        vertex2 = Vertex(0, 0, 0)
+        assert vertex1 > vertex2
+
+    def test_vertex_make_xy(self):
+        vertex = Vertex(1, 1, 1)
+        result = vertex.make_xy()
+        assert result.z == 0

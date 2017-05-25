@@ -4,6 +4,7 @@ import pytest
 from mesh3d.face import Face
 from mesh3d.vertex import Vertex
 
+
 class TestFace:
 
     def test_face_contructor_not_none(self):
@@ -40,3 +41,14 @@ class TestFace:
     def test_face_area(self):
         my_face = Face(vertex1=Vertex(0, 0, 0), vertex2=Vertex(0, 0, 0), vertex3=Vertex(1, 1, 1))
         assert my_face.area3d == 0
+
+    def test_face_area2d(self):
+        my_face = Face(Vertex(-2, 2, 5), Vertex(1, 6, 4), Vertex(6, 1, 3))
+        #(-2,2), (1,5), and (6,1).
+        result = my_face.area2d
+        assert result == 17.5
+
+    def test_face_area3d(self):
+        my_face = Face(Vertex(-2, 2, 5), Vertex(1, 5, 4), Vertex(6, 1, 3))
+        result = my_face.area3d
+        assert result == 13.982131454109563

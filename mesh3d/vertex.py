@@ -44,3 +44,6 @@ class Vertex(object):
     def __hash__(self):
         """Hash code for vertex."""
         return hash(self.x) + hash(self.y) + hash(self.z)
+
+    def displacement(self, vertex):
+        return Vertex(vertex.x - self.x, vertex.y - self.y, vertex.z - self.z)
