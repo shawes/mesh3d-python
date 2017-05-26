@@ -1,6 +1,6 @@
-from tqdm import tqdm
 from .mesh import Mesh
 from .face import Face
+from tqdm import tqdm
 
 
 def read_obj(file, verbose, order):
@@ -9,7 +9,7 @@ def read_obj(file, verbose, order):
     is_zero_vn = False
     contains_normal_vertex = False
     contains_texture_vertex = False
-
+    print("Reading in mesh: " + str(file.name))
     for line in tqdm(file):
         instructions = line.rstrip().split()
         if len(instructions) > 0:
@@ -31,7 +31,7 @@ def read_obj(file, verbose, order):
             else:
                 pass
 
-    mesh = Mesh(faces)
+    mesh = Mesh(faces, file.name)
     if verbose is True:
         print("Vertices: " + str(len(vertices)) +
               ", Faces: " + str(len(faces)))
