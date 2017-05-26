@@ -1,9 +1,6 @@
-import os.path
-import itertools
 from .mesh import Mesh
 from .face import Face
-from .metric import Metric
-import pdb
+from tqdm import tqdm
 
 
 def read_obj(file, verbose, order):
@@ -12,14 +9,17 @@ def read_obj(file, verbose, order):
     is_zero_vn = False
     contains_normal_vertex = False
     contains_texture_vertex = False
-
-    for line in file:
+    print("Reading in mesh: " + str(file.name))
+    for line in tqdm(file):
         instructions = line.rstrip().split()
         if len(instructions) > 0:
             if instructions[0] == "v" and is_zero_vn is False:
                 vertices.append(_create_vertex(instructions, order))
             elif instructions[0] == "f":
-                faces.append(_create_face(instructions, vertices, contains_normal_vertex, contains_texture_vertex))
+                faces.append(_create_face(instructions,
+                                          vertices,
+                                          contains_normal_vertex,
+                                          contains_texture_vertex))
             elif instructions[0] == "vn":
                 contains_normal_vertex = True
                 if (float(instructions[1]) == 0.0):
@@ -31,9 +31,10 @@ def read_obj(file, verbose, order):
             else:
                 pass
 
-    mesh = Mesh(faces)
+    mesh = Mesh(faces, file.name)
     if verbose is True:
-        print("Vertices: " + str(len(vertices)) + ", Faces: " + str(len(faces)))
+        print("Vertices: " + str(len(vertices)) +
+              ", Faces: " + str(len(faces)))
 
     return mesh
 
@@ -44,7 +45,8 @@ def _create_vertex(instructions, order):
                             float(instructions[3]))
 
 
-def _create_face(instructions, vertices, contains_normal_vertex, contains_texture_vertex):
+def _create_face(instructions, vertices, contains_normal_vertex,
+                 contains_texture_vertex):
     """Create a face using the instructions (removes 1 for the index)"""
     vertex1_index = 0
     vertex2_index = 0
@@ -66,7 +68,8 @@ def _create_face(instructions, vertices, contains_normal_vertex, contains_textur
         vertex2_index = instructions[2]
         vertex3_index = instructions[3]
     face_recipe = (int(vertex1_index), int(vertex2_index), int(vertex3_index))
-    face = Face(vertices[face_recipe[0] - 1], vertices[face_recipe[1] - 1], vertices[face_recipe[2] - 1])
+    face = Face(vertices[face_recipe[0] - 1], vertices[face_recipe[1] - 1],
+                vertices[face_recipe[2] - 1])
     return face
 
 
@@ -74,7 +77,6 @@ def write_csv(args, meshes):
     # Strip extensions off filenames
     csv_file = args.out
     files = args.meshes
-    quadrat_size = args.size
     mesh_names = list(map(lambda x: x.name.split('.')[0], files))
 
     # Write csv headers
