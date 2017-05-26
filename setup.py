@@ -31,12 +31,12 @@ setup(
     author='Steve Hawes',
     url="https://github.com/shawes/mesh3d-python",
     author_email="maxhawes@gmail.com",
-    install_requires=['pytest'],
-    tests_require=['pytest'],
-    cmdclass = {'test': PyTest},
+    install_requires=['pytest', 'tqdm'],
+    tests_require=['pytest', 'tqdm'],
+    cmdclass={'test': PyTest},
     scripts=[],
     name='Mesh3D',
-    version="0.1",
+    version="0.1.1",
     license=license,
     packages=find_packages(exclude=('tests', 'docs'))
 )
