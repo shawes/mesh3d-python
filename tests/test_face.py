@@ -51,4 +51,4 @@ class TestFace:
     def test_face_area3d(self):
         my_face = Face(Vertex(-2, 2, 5), Vertex(1, 5, 4), Vertex(6, 1, 3))
         result = my_face.area3d
-        assert result == 13.982131454109563
+        assert result == 13.982131454109568
