@@ -29,8 +29,18 @@ class Face(object):
 
     def _get_area(self, edge1, edge2, edge3):
         semiperimeter = (edge1 + edge2 + edge3) * 0.5
-        result = math.sqrt(semiperimeter *
-                           (semiperimeter - edge1) *
-                           (semiperimeter - edge2) *
-                           (semiperimeter - edge3))
+        result = 0.0
+        try:
+            result = math.sqrt(semiperimeter *
+                               (semiperimeter - edge1) *
+                               (semiperimeter - edge2) *
+                               (semiperimeter - edge3))
+        except ValueError:
+            """ Added to account for issue when semiperimeter and
+            edge round to the same number."""
+            semiperimeter = semiperimeter + 0.0001
+            result = math.sqrt(semiperimeter *
+                               (semiperimeter - edge1) *
+                               (semiperimeter - edge2) *
+                               (semiperimeter - edge3))
         return result
