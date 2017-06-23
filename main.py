@@ -6,4 +6,4 @@ core.run()
 end = datetime.now()
 duration = end - start
 minutes = duration.total_seconds() / 60
-print("It took {:0.2f} minutes to process the covfefe out of the mesh(es).").format(minutes)
+print("It took {:0.2f} minutes to process the covfefe out of the mesh(es).".format(minutes))
