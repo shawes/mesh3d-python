@@ -27,7 +27,7 @@ def _read_in_meshes(args):
 
     if args.verbose:
         print("Finished reading in the mesh files.")
-    return meshes
+    return list(meshes)
 
 
 def _calculate_bounding_box(args, meshes):
