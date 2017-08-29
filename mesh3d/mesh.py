@@ -2,7 +2,6 @@ from .vertex import Vertex
 from .face import Face
 from .metric import Metric
 from .helpers import get_z_value, mean, sd
-from tqdm import tqdm
 import pdb
 
 
@@ -15,7 +14,7 @@ class Mesh(object):
     def calculate_metrics(self, quadrats):
         metrics = list()
         print("Calculating for mesh: " + str(self.name))
-        for quadrat in tqdm(quadrats):
+        for quadrat in quadrats:
             metric = Metric()
             quadrat_vertices = list()
             metric.quadrat_id = quadrat.id
