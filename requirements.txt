@@ -4,4 +4,3 @@ py
 pyparsing
 pytest
 six
-tqdm
